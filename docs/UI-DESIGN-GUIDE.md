@@ -94,7 +94,7 @@ Scale ưu tiên: **4, 8, 12, 16, 20, 24, 32, 40, 48, 64, 80px**.
 | Image radius | 10–12px |
 | Dialog radius | 20px |
 | Contact radius | 24px desktop; 20px mobile |
-| Pill radius | 100px |
+| Badge/tag/tab radius | 10px; không dùng pill |
 
 Primary shadow:
 
@@ -315,3 +315,9 @@ Section `#process` gồm hai hàng độc lập: khối `.tabs-3` phía trên, d
 - CSS cho phần này được scope bằng `#process` để không ảnh hưởng các card hoặc tab khác.
 
 Khi thay đổi, kiểm tra cả Strategic, Performance và Scalability. Đo bounding box phải cho thấy `timeline.top >= tabs.bottom`; tỷ lệ ảnh render phải gần `776 / 804`, không xuất hiện tràn ngang ở desktop và mobile.
+
+## 13. Hình dạng control: không dùng pill
+
+Button, tab, badge/tag và nút đóng dialog dùng hình chữ nhật bo góc **10px** (`--studio-radius`), thống nhất với CTA của giao diện gốc. Không dùng radius 50%, 100px hoặc 9999px cho các control này, kể cả ở hover, selected và mobile. Badge/tag vẫn là nhãn thông tin, không được giả thành nút bấm. Nút đóng dialog giữ target 44×44px nhưng bo góc nhẹ, không tròn.
+
+Sau khi sửa, kiểm tra computed `border-radius` của primary, secondary, tab selected/unselected, tag và close button. Tất cả phải là 10px; không thay đổi logic tương tác chỉ để đổi hình dạng.
