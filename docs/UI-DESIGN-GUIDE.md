@@ -136,7 +136,7 @@ Không đặt chiều cao cố định cho khối văn bản. Text dài phải w
 | Section / ID | Nhiệm vụ | Tương tác chính |
 | --- | --- | --- |
 | `#top` | Giới thiệu lời hứa của studio | Start a project → contact; Explore solutions → solutions |
-| `#solutions` | Ba nhóm năng lực | Native disclosure mở deliverables |
+| `#solutions` | Ba nhóm năng lực | See more mở dialog chi tiết |
 | `#work` | Cho thấy ngôn ngữ hình ảnh | Card mở dialog exploration |
 | `#principles` | Quan điểm về thiết kế và kinh doanh | Nội dung biên tập |
 | `#approach` | Ba nguyên tắc tiếp cận | Explore more → process |
@@ -168,7 +168,7 @@ Các nhãn đã chuẩn hoá: All solutions, Brand design, Motion graphics, Web 
 
 ### 6.3. Service card và disclosure
 
-Giữ hình, tên dịch vụ, mô tả ngắn và một `<details>` chứa phạm vi đầu ra. Summary là nút xám See more toàn chiều rộng, cao 44px; chevron thể hiện trạng thái. Dữ liệu không phụ thuộc JavaScript để đọc được.
+Giữ hình tỷ lệ 4:3, tiêu đề 20px, mô tả ngắn 16px và CTA See more toàn chiều rộng. Nội dung dài nằm trong native dialog, không bung vào card. Các card đóng luôn có CTA cùng baseline.
 
 Ba nhóm: Brand solutions; Web solutions; Motion & animation. Không đưa giá hoặc thời gian cố định khi chưa có thông tin kinh doanh được xác nhận.
 
@@ -338,7 +338,7 @@ Quy tắc này thay thế các mô tả button trước đó nếu có khác bi�
 | Chevron secondary | Khung 20×20px, giữ tỷ lệ và đặt bên phải nhãn |
 | Card action | See more + chevron, rộng toàn bộ thẻ, các nút cùng hàng có cùng baseline |
 
-Hero và CTA trong nội dung dùng chiều rộng theo nhãn; chỉ CTA card và các action ở màn hình hẹp khi cần mới full-width. Nút disclosure dịch vụ giữ chức năng mở chi tiết; chevron chuyển hướng xuống khi mở. Không thay bằng link chữ và dấu cộng trải hết hàng. Không dùng dịch chuyển `translateY` khi hover để tránh baseline button thay đổi.
+Hero và CTA trong nội dung dùng chiều rộng theo nhãn; chỉ CTA card và các action ở màn hình hẹp khi cần mới full-width. Nút See more mở native dialog chi tiết dịch vụ; chevron bên phải nhãn giữ hướng điều hướng. Không thay bằng link chữ và dấu cộng trải hết hàng. Không dùng dịch chuyển `translateY` khi hover để tránh baseline button thay đổi.
 
 Kiểm tra cả primary, secondary, Explore/See more, tab, submit, download/copy và nút đóng dialog. Nút đóng là icon-only 44×44px, bo 10px, không thêm chevron. Badge/tag là nhãn thông tin, không kế thừa chiều cao button.
 
@@ -351,3 +351,13 @@ Nội dung theo thứ tự heading → mô tả → CTA, căn trái thống nh�
 Asset giữ nguyên bốn hàng và tám dot mỗi hàng. Mỗi hàng là grid tám cột bằng nhau; kích thước dot phụ thuộc chiều rộng container, `aspect-ratio:1`, không dùng `6vw` cho chiều rộng/chiều cao tại section này. Không ghi đè transform do animation runtime điều khiển. Container asset tối đa 740px, có padding để blur không đè lên nội dung. Đây là hình trang trí, được đặt `aria-hidden=true`.
 
 Ở ≤991px chuyển thành một cột, nội dung trước và animation sau; không đảo asset lên trên. Mobile giảm gap/padding nhưng vẫn giữ các dot tròn và không tràn ngang. Kiểm tra ở 1440px, 1024px và 390px: tỷ lệ cột desktop, thứ tự nội dung, asset không chồng chữ, tỷ lệ dot 1:1 trước transform và CTA không bị ép hẹp.
+
+## 16. Service cards: nội dung ngắn, chi tiết tách riêng
+
+Không dùng accordion mở nội dung dài bên trong một card của grid ba cột. Cách này làm tăng chiều cao hàng, đẩy CTA ở các card khác xuống và phá nhịp đọc.
+
+Card có đúng bốn phần: ảnh 4:3 → tiêu đề → mô tả một câu ngắn → See more. Hình có cùng tỷ lệ; tên dịch vụ 20px/1.3, mô tả 16px/1.6; gap 20px desktop, 16px mobile. Mô tả không bị cắt bằng line-clamp; desktop giữ tối thiểu hai dòng để các CTA ổn định, mobile để chiều cao tự nhiên.
+
+See more là link có accessible name riêng theo dịch vụ và `data-dialog`; khi mở, bố cục card phía sau không thay đổi kích thước. Dialog gồm heading, giới thiệu ngắn, hai nhóm Typical deliverables / A good starting point và một CTA. Desktop dialog dùng hai cột nội dung; mobile một cột. Close/Escape trả focus về đúng card. CTA trong dialog đóng popup, đi tới contact và chọn sẵn dịch vụ tương ứng, nhưng không gửi form.
+
+Kiểm tra hồi quy: cả ba CTA cùng baseline ở desktop; mở/đóng từng dialog không đổi bounding box của card; nội dung popup không tràn mobile; service prefill đúng và vẫn chỉ là form demo.
