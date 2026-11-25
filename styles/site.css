@@ -132,10 +132,13 @@ html{scrollbar-gutter:stable}
 .studio-contact .studio-form-note{font-size:14px;line-height:1.5}
 .studio-contact .studio-button[type=submit]{width:100%;grid-column:1/-1}
 .studio-contact-art{position:absolute;inset:0;z-index:0;overflow:hidden;pointer-events:none}
-.studio-contact-mesh{position:absolute;inset:-30%;background:radial-gradient(ellipse at 20% 25%,#91bcff80,transparent 45%),radial-gradient(ellipse at 60% 80%,#b8a6ff70,transparent 45%),radial-gradient(ellipse at 80% 15%,#8ee6ed70,transparent 40%);filter:blur(30px);animation:contact-mesh 18s ease-in-out infinite alternate}
-.studio-contact-art i{position:absolute;left:var(--x);top:-40px;width:var(--size);height:var(--size);background:#146ef5;opacity:0;animation:contact-pixel var(--duration) linear var(--delay) infinite}
-@keyframes contact-mesh{from{transform:translate(-3%,-2%) rotate(-8deg) scale(1)}to{transform:translate(5%,4%) rotate(9deg) scale(1.12)}}
-@keyframes contact-pixel{0%{transform:translateY(0);opacity:0}12%{opacity:.14}80%{opacity:.1}100%{transform:translateY(850px);opacity:0}}
 @media(max-width:991px){.studio-contact{padding:32px;gap:32px;grid-template-columns:minmax(0,1fr)}}
 @media(max-width:479px){.studio-contact{padding:24px 16px;gap:24px}.studio-contact .studio-form{padding:20px 16px;grid-template-columns:minmax(0,1fr)}.studio-contact-copy h2{font-size:32px}}
-@media(prefers-reduced-motion:reduce){.studio-contact-mesh{animation:none}.studio-contact-art i{animation:none;display:none}}
+
+
+/* Reference-inspired ordered dither: violet pixels on pale cyan. */
+.studio-contact{background:#bfe7fb}
+.studio-contact-dither{display:block;width:100%;height:100%;image-rendering:pixelated}
+.studio-contact-copy{padding:24px;border-radius:10px;background:#ffffffeb}
+.studio-contact .studio-form{background:#fffffff5}
+@media(max-width:479px){.studio-contact-copy{padding:20px 16px}}
