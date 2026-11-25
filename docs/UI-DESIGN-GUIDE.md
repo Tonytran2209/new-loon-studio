@@ -307,7 +307,7 @@ Không kích hoạt một hệ thống thu thập dữ liệu thật chỉ bằn
 
 Section `#process` gồm hai hàng độc lập: khối `.tabs-3` phía trên, danh sách `.studio-process` phía dưới. Container `.loonlab-tab-container` dùng `display:block`; không để hai khối này trở thành hai flex item nằm ngang.
 
-- Thanh tab căn giữa và có thể wrap.
+- Thanh tab căn giữa, có thể wrap và dùng `position:static` để luôn ở trên nội dung tab, không trôi xuống khi cuộn hoặc chụp toàn section.
 - Tab content desktop dùng grid hai cột: hình tối đa 286px, nội dung tối đa 412px, gap 48px.
 - Ảnh `.image-250` dùng `width:100%; height:auto; object-fit:contain`; tỷ lệ gốc 776:804. HTML width/height chỉ giữ chỗ, không được tạo chiều cao render cố định khi ảnh thu nhỏ.
 - Dưới 768px: nội dung tab một cột, ảnh tối đa 264px và căn giữa.
