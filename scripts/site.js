@@ -24,14 +24,15 @@ form.querySelector('button[type="submit"]').disabled=false;
 // The user can browse without JavaScript; hide links to dialogs only when unsupported.
 if(!supportsDialog)$$('[data-dialog]').forEach(a=>{a.href='#contact';a.removeAttribute('data-dialog')});
 
-// Ordered dithering: crisp square pixels, a diagonal mesh boundary and subtle drift.
-(()=>{const canvas=document.querySelector('.studio-contact-dither');if(!canvas)return;const ctx=canvas.getContext('2d');if(!ctx)return;
-const matrix=[0,8,2,10,12,4,14,6,3,11,1,9,15,7,13,5];let width=0,height=0,frame=0,visible=false,last=0;
-function draw(time=0){const step=6,dpr=Math.min(devicePixelRatio||1,2);ctx.setTransform(dpr,0,0,dpr,0,0);ctx.fillStyle='#bfe7fb';ctx.fillRect(0,0,width,height);ctx.fillStyle='#633bfa';
-for(let y=0,row=0;y<height;y+=step,row++){for(let x=0,col=0;x<width;x+=step,col++){const nx=x/width,ny=y/height;const edge=.66-.36*nx+.045*Math.sin(nx*7+time*.00012)+.025*Math.sin(nx*15-time*.00008);const density=Math.max(0,Math.min(.92,(edge-ny)/.36+.5));const threshold=(matrix[(row%4)*4+col%4]+.5)/16;if(density>threshold){const size=density>.92?step:4;ctx.fillRect(x,y,size,size)}}}}
-function tick(t){if(!visible||reduced.matches){frame=0;return}if(t-last>70){draw(t);last=t}frame=requestAnimationFrame(tick)}
-function sync(){cancelAnimationFrame(frame);frame=0;draw();if(visible&&!reduced.matches)frame=requestAnimationFrame(tick)}
+// Animated dither mesh with a smoothed, local pointer ripple.
+(()=>{const canvas=document.querySelector('.studio-contact-dither');if(!canvas)return;const ctx=canvas.getContext('2d');if(!ctx)return;const banner=canvas.closest('.studio-contact');
+const matrix=[0,8,2,10,12,4,14,6,3,11,1,9,15,7,13,5];let width=0,height=0,frame=0,visible=false,last=0,elapsed=0;const pointer={x:.5,y:.5,tx:.5,ty:.5,power:0,target:0};
+function draw(time=0){const step=7,dpr=Math.min(devicePixelRatio||1,2),phase=time*.001;ctx.setTransform(dpr,0,0,dpr,0,0);ctx.fillStyle='#bfe7fb';ctx.fillRect(0,0,width,height);ctx.fillStyle='#633bfa';
+for(let y=0,row=0;y<height;y+=step,row++){for(let x=0,col=0;x<width;x+=step,col++){const nx=x/width,ny=y/height;const edge=.6-.28*nx+.15*Math.sin(nx*6.5+phase*.9)+.08*Math.sin(nx*12-phase*1.15)+.08*Math.sin(phase*.7);const dx=x-pointer.x*width,dy=y-pointer.y*height,dist=Math.sqrt(dx*dx+dy*dy),radius=Math.min(width,height)*.48;const influence=Math.exp(-dist*dist/(radius*radius));const ripple=pointer.power*influence*(.32+.15*Math.sin(dist*.028-phase*3.2));const density=Math.max(0,Math.min(.96,(edge-ny)/.44+.5+ripple));const threshold=(matrix[(row%4)*4+col%4]+.5)/16;const coverage=Math.max(0,Math.min(1,(density-threshold)*5+.5));if(coverage>0){const size=step*Math.sqrt(coverage)*.94;ctx.fillRect(x+(step-size)/2,y+(step-size)/2,size,size)}}}}
+function tick(t){if(!visible||reduced.matches||document.hidden){frame=0;last=0;return}const dt=last?Math.min(t-last,50):16.7;last=t;elapsed+=dt;const ease=1-Math.exp(-dt/110);pointer.x+=(pointer.tx-pointer.x)*ease;pointer.y+=(pointer.ty-pointer.y)*ease;pointer.power+=(pointer.target-pointer.power)*ease;draw(elapsed);frame=requestAnimationFrame(tick)}
+function sync(){cancelAnimationFrame(frame);frame=0;last=0;draw(reduced.matches?0:elapsed);if(visible&&!reduced.matches&&!document.hidden)frame=requestAnimationFrame(tick)}
+banner.addEventListener('pointermove',e=>{if(e.pointerType==='touch'||reduced.matches)return;const r=banner.getBoundingClientRect();pointer.tx=(e.clientX-r.left)/r.width;pointer.ty=(e.clientY-r.top)/r.height;pointer.target=1},{passive:true});banner.addEventListener('pointerleave',()=>{pointer.target=0},{passive:true});
 new ResizeObserver(entries=>{const r=entries[0].contentRect;width=r.width;height=r.height;const dpr=Math.min(devicePixelRatio||1,2);canvas.width=Math.round(width*dpr);canvas.height=Math.round(height*dpr);sync()}).observe(canvas.parentElement);
-new IntersectionObserver(entries=>{visible=entries[0].isIntersecting;sync()},{rootMargin:'80px'}).observe(canvas);reduced.addEventListener('change',sync);
+new IntersectionObserver(entries=>{visible=entries[0].isIntersecting;sync()},{rootMargin:'80px'}).observe(canvas);reduced.addEventListener('change',()=>{pointer.target=0;pointer.power=0;sync()});document.addEventListener('visibilitychange',sync);
 })();
 })();
