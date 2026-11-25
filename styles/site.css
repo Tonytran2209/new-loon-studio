@@ -38,3 +38,32 @@ html{font-size:16px!important;scroll-behavior:auto;scroll-padding-top:88px}body{
 .loonlab-primary-cta,.loonlab-nav-cta,.loonlab-secondary-button,.loonlab-secondary-button-2,
 .studio-button,.studio-tag,.studio-dialog-close,.w-nav-button{border-radius:var(--studio-radius)}
 #process .w-tab-link,#process .w-tab-link.w--current{border-radius:var(--studio-radius)}
+
+/* Button contract based on the supplied original hero and service-card references. */
+:root{--studio-button-height:44px;--studio-button-padding:16px;--studio-button-gap:8px}
+.loonlab-primary-cta,.loonlab-nav-cta,.loonlab-secondary-button,.loonlab-secondary-button-2,
+.studio-button,.studio-service-details summary{
+ display:inline-flex;align-items:center;justify-content:center;gap:var(--studio-button-gap);
+ box-sizing:border-box;height:var(--studio-button-height);min-height:var(--studio-button-height);
+ padding:0 var(--studio-button-padding);border:0;border-radius:10px;
+ font-family:Inter,Arial,sans-serif;font-size:14px;font-weight:500;line-height:20px;
+ text-align:center;text-decoration:none;vertical-align:middle;white-space:nowrap;flex-shrink:0;
+ width:fit-content;max-width:100%;transition:background-color .2s,box-shadow .2s;
+}
+.loonlab-primary-cta,.loonlab-nav-cta,.studio-button{background-color:var(--studio-blue);color:#fff;box-shadow:var(--studio-shadow)}
+.loonlab-secondary-button,.loonlab-secondary-button-2,.studio-button.secondary,.studio-service-details summary{background:#f1f1f1;color:#333;box-shadow:none}
+.loonlab-primary-cta:hover,.loonlab-nav-cta:hover,.studio-button:hover{background-color:var(--studio-blue-hover);transform:none}
+.loonlab-secondary-button:hover,.loonlab-secondary-button-2:hover,.studio-button.secondary:hover,.studio-service-details summary:hover{background:#e6e8ed;transform:none}
+.loonlab-secondary-button .code-embed-7,.loonlab-secondary-button-2 .code-embed-7{display:grid;place-items:center;width:20px;height:20px;flex:0 0 20px}
+.loonlab-secondary-button .code-embed-7 svg,.loonlab-secondary-button-2 .code-embed-7 svg{display:block;width:20px;height:20px}
+.studio-service-details{border-top:0;padding-top:0;margin-top:auto}
+.studio-service-details summary{display:flex;width:100%;list-style:none}
+.studio-service-details summary::after{content:'';display:block;width:7px;height:7px;border-top:1.75px solid currentColor;border-right:1.75px solid currentColor;transform:rotate(45deg);flex:0 0 7px;margin:0 3px 0 0}
+.studio-service-details[open] summary::after{content:'';transform:rotate(135deg)}
+.studio-service-details>p{margin-top:16px}
+#solutions .div-block-32142222379{align-items:stretch;min-width:0}
+#solutions .div-block-32142222380{flex:1}
+#process .w-tab-link{display:inline-flex;align-items:center;justify-content:center;height:44px;min-height:44px;padding:0 16px;gap:8px;border-radius:10px;font-size:14px;font-weight:500;line-height:20px}
+#process .loonlab-text-tabs{font-size:14px;font-weight:500;line-height:20px}
+.studio-button:disabled,.loonlab-primary-cta[aria-disabled=true]{opacity:.55;transform:none;cursor:not-allowed}
+@media(max-width:420px){.studio-actions .studio-button{width:100%}}

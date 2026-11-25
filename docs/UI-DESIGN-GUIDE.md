@@ -159,16 +159,16 @@ Các nhãn đã chuẩn hoá: All solutions, Brand design, Motion graphics, Web 
 
 ### 6.2. Button và text link
 
-- Primary: nền xanh, chữ trắng, cao ít nhất 44px, padding khoảng 12px 18px, radius 10px.
+- Primary: nền xanh, chữ trắng, cao 44px, padding ngang 16px, radius 10px.
 - Secondary: nền `#F1F1F1`, chữ đậm, không shadow nặng.
 - Link trong đoạn văn: xanh, underline, offset 4px.
-- Không dựa vào icon để giải thích action. CTA mới không thêm mũi tên trang trí.
+- Không dựa vào icon để giải thích action. CTA điều hướng phụ sử dụng chevron theo ảnh tham chiếu do chủ website cung cấp.
 - Hover primary tối hơn và dịch lên tối đa 1px; keyboard focus có outline 3px.
 - Dùng `<a>` để điều hướng, `<button>` để thao tác. Submit là `type="submit"`; copy/download/close là `type="button"`.
 
 ### 6.3. Service card và disclosure
 
-Giữ hình, tên dịch vụ, mô tả ngắn và một `<details>` chứa phạm vi đầu ra. Summary có target 44px; dấu +/− thể hiện trạng thái. Dữ liệu không phụ thuộc JavaScript để đọc được.
+Giữ hình, tên dịch vụ, mô tả ngắn và một `<details>` chứa phạm vi đầu ra. Summary là nút xám See more toàn chiều rộng, cao 44px; chevron thể hiện trạng thái. Dữ liệu không phụ thuộc JavaScript để đọc được.
 
 Ba nhóm: Brand solutions; Web solutions; Motion & animation. Không đưa giá hoặc thời gian cố định khi chưa có thông tin kinh doanh được xác nhận.
 
@@ -321,3 +321,23 @@ Khi thay đổi, kiểm tra cả Strategic, Performance và Scalability. Đo bou
 Button, tab, badge/tag và nút đóng dialog dùng hình chữ nhật bo góc **10px** (`--studio-radius`), thống nhất với CTA của giao diện gốc. Không dùng radius 50%, 100px hoặc 9999px cho các control này, kể cả ở hover, selected và mobile. Badge/tag vẫn là nhãn thông tin, không được giả thành nút bấm. Nút đóng dialog giữ target 44×44px nhưng bo góc nhẹ, không tròn.
 
 Sau khi sửa, kiểm tra computed `border-radius` của primary, secondary, tab selected/unselected, tag và close button. Tất cả phải là 10px; không thay đổi logic tương tác chỉ để đổi hình dạng.
+
+## 14. Button contract theo ảnh tham chiếu gốc
+
+Quy tắc này thay thế các mô tả button trước đó nếu có khác biệt.
+
+| Thuộc tính | Quy chuẩn |
+| --- | --- |
+| Chiều cao | 44px cho primary, secondary, summary dịch vụ và tab |
+| Bo góc | 10px, không pill |
+| Chữ | Inter 14px, weight 500, line-height 20px |
+| Padding ngang | 16px; nội dung luôn căn giữa hai trục |
+| Khoảng cách icon | 8px |
+| Primary | Xanh `#146EF5`, chữ trắng, shadow gốc |
+| Secondary | Xám `#F1F1F1`, chữ `#333333`, không shadow |
+| Chevron secondary | Khung 20×20px, giữ tỷ lệ và đặt bên phải nhãn |
+| Card action | See more + chevron, rộng toàn bộ thẻ, các nút cùng hàng có cùng baseline |
+
+Hero và CTA trong nội dung dùng chiều rộng theo nhãn; chỉ CTA card và các action ở màn hình hẹp khi cần mới full-width. Nút disclosure dịch vụ giữ chức năng mở chi tiết; chevron chuyển hướng xuống khi mở. Không thay bằng link chữ và dấu cộng trải hết hàng. Không dùng dịch chuyển `translateY` khi hover để tránh baseline button thay đổi.
+
+Kiểm tra cả primary, secondary, Explore/See more, tab, submit, download/copy và nút đóng dialog. Nút đóng là icon-only 44×44px, bo 10px, không thêm chevron. Badge/tag là nhãn thông tin, không kế thừa chiều cao button.
