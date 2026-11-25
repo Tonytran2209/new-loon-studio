@@ -105,3 +105,15 @@ html{font-size:16px!important;scroll-behavior:auto;scroll-padding-top:88px}body{
 }
 /* Reserve the scrollbar gutter so opening a dialog cannot resize the cards behind it. */
 html{scrollbar-gutter:stable}
+
+/* Mega-menu links: the whole padded row owns its hover/focus surface. */
+.navbar_dropdown-list .navbar_dropdown-list-link{width:100%;min-width:0;min-height:64px;padding:12px 16px;border-radius:10px;align-items:flex-start;flex-direction:row;gap:12px;background:transparent;color:var(--studio-text);transition:background-color .18s ease,color .18s ease}
+.navbar_dropdown-list .navbar_dropdown-list-link:hover,.navbar_dropdown-list .navbar_dropdown-list-link:focus-visible{background:var(--studio-soft-blue);color:var(--studio-blue)}
+.navbar_dropdown-list .navbar_dropdown-list-link:focus-visible{outline:2px solid var(--studio-blue);outline-offset:2px}
+.navbar_dropdown-list .navbar_dropdown-list-link-icon{flex:0 0 24px;width:24px;height:24px;align-items:center;justify-content:center}
+.navbar_dropdown-list .navbar_dropdown-list-link-text-wrapper{min-width:0;gap:4px}
+.navbar_dropdown-list .navbar_dropdown-list-link-name{margin-right:0;line-height:24px}
+.navbar_dropdown-list .navbar_dropdown-list-link-description{color:var(--studio-muted);line-height:1.5}
+.navbar_dropdown-list .navbar_dropdown-inner-list{gap:8px}
+.navbar_dropdown-list .navbar_dropdown-list-column:last-child{border-right:0;padding-right:0}
+@media(max-width:767px){.navbar_dropdown-list .navbar_dropdown-list-link{padding:12px;min-height:64px}}

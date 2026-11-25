@@ -361,3 +361,7 @@ Card có đúng bốn phần: ảnh 4:3 → tiêu đề → mô tả một câu 
 See more là link có accessible name riêng theo dịch vụ và `data-dialog`; khi mở, bố cục card phía sau không thay đổi kích thước. Dialog gồm heading, giới thiệu ngắn, hai nhóm Typical deliverables / A good starting point và một CTA. Desktop dialog dùng hai cột nội dung; mobile một cột. Close/Escape trả focus về đúng card. CTA trong dialog đóng popup, đi tới contact và chọn sẵn dịch vụ tương ứng, nhưng không gửi form.
 
 Kiểm tra hồi quy: cả ba CTA cùng baseline ở desktop; mở/đóng từng dialog không đổi bounding box của card; nội dung popup không tràn mobile; service prefill đúng và vẫn chỉ là form demo.
+
+## 17. Header mega-menu interaction surfaces
+
+Every link in Solutions and Our lab uses a full-width interaction row with 12px vertical / 16px horizontal padding (12px on mobile), a 10px corner radius, and a minimum height of 64px. Keep icons at 24px with a 12px gap to the text. Use an 8px gap between rows. Hover and keyboard focus share the soft blue #EFF5FF surface and blue #146EF5 title/icon; descriptions retain their muted colour. Keyboard focus also has a 2px blue outline, offset 2px. Animate only background and colour over 180ms; padding, dimensions and position must stay stable. Apply to both mega menus, never just the text wrapper. The last column has no trailing divider.
