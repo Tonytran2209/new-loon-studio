@@ -117,3 +117,25 @@ html{scrollbar-gutter:stable}
 .navbar_dropdown-list .navbar_dropdown-inner-list{gap:8px}
 .navbar_dropdown-list .navbar_dropdown-list-column:last-child{border-right:0;padding-right:0}
 @media(max-width:767px){.navbar_dropdown-list .navbar_dropdown-list-link{padding:12px;min-height:64px}}
+
+/* Contact CTA: compact form above a decorative pixel / mesh layer. */
+.studio-contact{position:relative;isolation:isolate;overflow:hidden;padding:48px;gap:64px;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);border:1px solid #dce7fa;border-radius:10px;background:#f4f8ff;align-items:center}
+.studio-contact-copy,.studio-contact .studio-form{position:relative;z-index:1;min-width:0}
+.studio-contact-copy h2{font-size:clamp(2rem,3.5vw,3rem);font-weight:400;line-height:1.15}
+.studio-contact-copy>p{font-size:16px;line-height:1.65;margin:24px 0;max-width:34ch}
+.studio-contact-copy .studio-label{font-size:14px;line-height:1.6;max-width:34ch;margin-bottom:0}
+.studio-contact .studio-form{padding:28px;background:#fffffff2;border:1px solid #e3e9f3;border-radius:10px;gap:16px}
+.studio-contact .studio-field{gap:6px;font-size:14px;line-height:20px}
+.studio-contact .studio-field input,.studio-contact .studio-field select{min-height:44px;padding:10px 12px;font-size:14px;line-height:22px}
+.studio-contact .studio-field select{padding-right:36px}
+.studio-contact .studio-field textarea{min-height:104px;padding:10px 12px;font-size:14px;line-height:22px}
+.studio-contact .studio-form-note{font-size:14px;line-height:1.5}
+.studio-contact .studio-button[type=submit]{width:100%;grid-column:1/-1}
+.studio-contact-art{position:absolute;inset:0;z-index:0;overflow:hidden;pointer-events:none}
+.studio-contact-mesh{position:absolute;inset:-30%;background:radial-gradient(ellipse at 20% 25%,#91bcff80,transparent 45%),radial-gradient(ellipse at 60% 80%,#b8a6ff70,transparent 45%),radial-gradient(ellipse at 80% 15%,#8ee6ed70,transparent 40%);filter:blur(30px);animation:contact-mesh 18s ease-in-out infinite alternate}
+.studio-contact-art i{position:absolute;left:var(--x);top:-40px;width:var(--size);height:var(--size);background:#146ef5;opacity:0;animation:contact-pixel var(--duration) linear var(--delay) infinite}
+@keyframes contact-mesh{from{transform:translate(-3%,-2%) rotate(-8deg) scale(1)}to{transform:translate(5%,4%) rotate(9deg) scale(1.12)}}
+@keyframes contact-pixel{0%{transform:translateY(0);opacity:0}12%{opacity:.14}80%{opacity:.1}100%{transform:translateY(850px);opacity:0}}
+@media(max-width:991px){.studio-contact{padding:32px;gap:32px;grid-template-columns:minmax(0,1fr)}}
+@media(max-width:479px){.studio-contact{padding:24px 16px;gap:24px}.studio-contact .studio-form{padding:20px 16px;grid-template-columns:minmax(0,1fr)}.studio-contact-copy h2{font-size:32px}}
+@media(prefers-reduced-motion:reduce){.studio-contact-mesh{animation:none}.studio-contact-art i{animation:none;display:none}}

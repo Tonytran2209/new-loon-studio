@@ -365,3 +365,9 @@ Kiểm tra hồi quy: cả ba CTA cùng baseline ở desktop; mở/đóng từng
 ## 17. Header mega-menu interaction surfaces
 
 Every link in Solutions and Our lab uses a full-width interaction row with 12px vertical / 16px horizontal padding (12px on mobile), a 10px corner radius, and a minimum height of 64px. Keep icons at 24px with a 12px gap to the text. Use an 8px gap between rows. Hover and keyboard focus share the soft blue #EFF5FF surface and blue #146EF5 title/icon; descriptions retain their muted colour. Keyboard focus also has a 2px blue outline, offset 2px. Animate only background and colour over 180ms; padding, dimensions and position must stay stable. Apply to both mega menus, never just the text wrapper. The last column has no trailing divider.
+
+## 18. Contact banner
+
+Use four fields only: name, email, service and project message. Remove company and timeline. Keep the explicit local demo confirmation and brief copy/download flow. The banner uses the site's 10px radius, 48px desktop padding, two balanced columns and a compact white form surface. Inputs/selects have a 44px minimum height; use 14px labels and 16px body copy. Stack the columns below 992px and the name/email pair on narrow mobile screens. The form submit button spans the form width.
+
+The decorative background consists of three soft blue/lavender/cyan radial gradients drifting over 18 seconds and 24 square pixels falling at staggered intervals. Keep pixels at low opacity, behind content, without pointer events, and hidden from assistive technology. Respect reduced motion by stopping the mesh and hiding falling pixels. Keep the form surface opaque enough for stable contrast. No animation changes the content's dimensions.
