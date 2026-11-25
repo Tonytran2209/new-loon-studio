@@ -67,3 +67,24 @@ html{font-size:16px!important;scroll-behavior:auto;scroll-padding-top:88px}body{
 #process .loonlab-text-tabs{font-size:14px;font-weight:500;line-height:20px}
 .studio-button:disabled,.loonlab-primary-cta[aria-disabled=true]{opacity:.55;transform:none;cursor:not-allowed}
 @media(max-width:420px){.studio-actions .studio-button{width:100%}}
+
+/* Human vision: balanced content/animation columns; size dots from their container. */
+#about .div-block-32142222381{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:clamp(32px,4vw,64px);align-items:center;width:100%;min-width:0}
+#about .loonlab-content-container{width:100%;min-width:0;max-width:none;order:0}
+#about .div-block-32142222385{display:flex;flex-direction:column;align-items:flex-start;gap:24px;width:100%;max-width:520px;min-width:0}
+#about .loonlab-heading-2{text-align:left;margin:0;max-width:100%}
+#about .studio-about-copy{text-align:left;width:100%;max-width:52ch;margin:0;padding:0;font-size:16px;line-height:1.7}
+#about .loonlab-secondary-button{align-self:flex-start}
+#about .div-block-32142222383{display:flex;flex-direction:column;gap:12px;width:100%;max-width:740px;min-width:0;padding:16px;order:0;justify-self:center;isolation:isolate}
+#about .loonlab-dot-container{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:clamp(4px,.6vw,10px);align-items:center;width:100%;min-width:0}
+#about .loonlab-dot-container>[class^="dot-pattern-"]{width:100%;height:auto;aspect-ratio:1;min-width:0;max-width:100%;flex:none}
+@media(max-width:991px){
+ #about .div-block-32142222381{grid-template-columns:minmax(0,1fr);gap:32px}
+ #about .div-block-32142222385{max-width:640px}
+ #about .div-block-32142222383{max-width:720px;justify-self:start}
+}
+@media(max-width:767px){
+ #about .div-block-32142222385{gap:20px}
+ #about .div-block-32142222383{padding:10px;gap:8px}
+ #about .loonlab-dot-container{gap:4px}
+}

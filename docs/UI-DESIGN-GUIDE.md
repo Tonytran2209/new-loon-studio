@@ -341,3 +341,13 @@ Quy tắc này thay thế các mô tả button trước đó nếu có khác bi�
 Hero và CTA trong nội dung dùng chiều rộng theo nhãn; chỉ CTA card và các action ở màn hình hẹp khi cần mới full-width. Nút disclosure dịch vụ giữ chức năng mở chi tiết; chevron chuyển hướng xuống khi mở. Không thay bằng link chữ và dấu cộng trải hết hàng. Không dùng dịch chuyển `translateY` khi hover để tránh baseline button thay đổi.
 
 Kiểm tra cả primary, secondary, Explore/See more, tab, submit, download/copy và nút đóng dialog. Nút đóng là icon-only 44×44px, bo 10px, không thêm chevron. Badge/tag là nhãn thông tin, không kế thừa chiều cao button.
+
+## 15. Layout contract: Human vision / animation
+
+Section `#about` dùng hai cột **45% nội dung / 55% animation** trên desktop, sau khi trừ gap co giãn 32–64px. Cả hai cột phải dùng `minmax(0, …)` và `min-width:0` để kích thước tối thiểu của asset không ép cột nội dung co lại.
+
+Nội dung theo thứ tự heading → mô tả → CTA, căn trái thống nhất; khối copy tối đa 520px trên desktop. Không đặt đoạn mô tả căn giữa phía dưới CTA. Hai cột căn giữa theo chiều dọc.
+
+Asset giữ nguyên bốn hàng và tám dot mỗi hàng. Mỗi hàng là grid tám cột bằng nhau; kích thước dot phụ thuộc chiều rộng container, `aspect-ratio:1`, không dùng `6vw` cho chiều rộng/chiều cao tại section này. Không ghi đè transform do animation runtime điều khiển. Container asset tối đa 740px, có padding để blur không đè lên nội dung. Đây là hình trang trí, được đặt `aria-hidden=true`.
+
+Ở ≤991px chuyển thành một cột, nội dung trước và animation sau; không đảo asset lên trên. Mobile giảm gap/padding nhưng vẫn giữ các dot tròn và không tràn ngang. Kiểm tra ở 1440px, 1024px và 390px: tỷ lệ cột desktop, thứ tự nội dung, asset không chồng chữ, tỷ lệ dot 1:1 trước transform và CTA không bị ép hẹp.
