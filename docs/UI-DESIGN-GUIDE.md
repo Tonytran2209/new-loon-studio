@@ -230,7 +230,8 @@ Footer có wordmark dạng chữ, mô tả ngắn, ba nhóm link và hàng legal
 ## 7. Motion và accessibility
 
 - Hover button: khoảng 200ms; hình card: 400–600ms, easing nhẹ.
-- Không animate chiều rộng/chiều cao trang hoặc tạo layout shift khi ảnh tải.
+- Không animate chiều rộng/chiều cao trang hoặc tạo layout shift khi ảnh tải. Hero và ảnh card được khai báo kích thước để giữ chỗ.
+- Điều hướng anchor của phần gốc do Webflow điều khiển; không bật thêm `html { scroll-behavior: smooth }` để tránh hai cơ chế cuộn cạnh tranh. Dialog và form dùng `scrollIntoView` có kiểm tra reduced motion.
 - Ảnh hero tải eager và `fetchpriority=high`; ảnh bên dưới lazy-load.
 - Tôn trọng `prefers-reduced-motion`: bỏ smooth scroll, giảm animation/transition, không zoom ảnh.
 - Focus outline: 3px xanh, offset 4px; không xoá outline mà không có thay thế.
