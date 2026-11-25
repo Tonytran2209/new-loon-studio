@@ -15,3 +15,21 @@ html{font-size:16px!important;scroll-behavior:auto;scroll-padding-top:88px}body{
 @media(max-width:420px){.studio-form{grid-template-columns:1fr}.studio-field{grid-column:1/-1}.studio-contact{padding:24px 18px}.studio-actions .studio-button{width:100%}.loonlab-heading-1{font-size:2.25rem}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}.studio-study:hover img{transform:none}}
 .studio-sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}.studio-field{position:relative}
+
+/* Keep the original Webflow tabs and the added process timeline in separate rows. */
+#process .loonlab-tab-container{display:block;width:100%;min-width:0}
+#process .tabs-3{width:100%;min-width:0}
+#process .tabs-menu-7{justify-content:center;flex-wrap:wrap}
+#process .tabs-content-2{display:block;width:100%;min-width:0;margin-top:32px}
+#process .w-tab-pane{width:100%;min-width:0}
+#process .tab-content{display:grid;grid-template-columns:minmax(0,286px) minmax(0,412px);align-items:center;justify-content:center;gap:48px;max-width:900px;width:100%;margin:0 auto}
+#process .visual-side{width:100%;max-width:286px;min-width:0;justify-self:center}
+#process .image-250{display:block;width:100%;max-width:100%;height:auto;object-fit:contain;aspect-ratio:776/804}
+#process .content-side{width:100%;max-width:412px;min-width:0}
+#process .studio-process{width:100%;margin-top:48px}
+@media(max-width:767px){
+ #process .tab-content{grid-template-columns:minmax(0,1fr);gap:24px;max-width:560px}
+ #process .visual-side{max-width:264px}
+ #process .content-side{max-width:none}
+ #process .studio-process{margin-top:32px}
+}

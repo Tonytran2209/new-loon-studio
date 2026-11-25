@@ -302,3 +302,16 @@ Không thêm package manager hoặc build system chỉ để phục vụ trang t
 6. Bỏ nhãn demo và cập nhật FAQ/Privacy/README cùng lúc.
 
 Không kích hoạt một hệ thống thu thập dữ liệu thật chỉ bằng việc đổi chữ trên CTA.
+
+## 12. Layout contract cho section “How we do”
+
+Section `#process` gồm hai hàng độc lập: khối `.tabs-3` phía trên, danh sách `.studio-process` phía dưới. Container `.loonlab-tab-container` dùng `display:block`; không để hai khối này trở thành hai flex item nằm ngang.
+
+- Thanh tab căn giữa và có thể wrap.
+- Tab content desktop dùng grid hai cột: hình tối đa 286px, nội dung tối đa 412px, gap 48px.
+- Ảnh `.image-250` dùng `width:100%; height:auto; object-fit:contain`; tỷ lệ gốc 776:804. HTML width/height chỉ giữ chỗ, không được tạo chiều cao render cố định khi ảnh thu nhỏ.
+- Dưới 768px: nội dung tab một cột, ảnh tối đa 264px và căn giữa.
+- Timeline luôn nằm dưới toàn bộ nội dung tab, không được nằm cạnh thanh tab hoặc bên phải ảnh.
+- CSS cho phần này được scope bằng `#process` để không ảnh hưởng các card hoặc tab khác.
+
+Khi thay đổi, kiểm tra cả Strategic, Performance và Scalability. Đo bounding box phải cho thấy `timeline.top >= tabs.bottom`; tỷ lệ ảnh render phải gần `776 / 804`, không xuất hiện tràn ngang ở desktop và mobile.
