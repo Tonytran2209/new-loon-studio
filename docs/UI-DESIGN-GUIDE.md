@@ -399,3 +399,5 @@ Replace the hero collage image and previous CTA halftone renderer with the user-
 
 ### CTA calm mode
 CTA fluid uses 6 ambient emitters, 8 seeds, slower fluid velocity and 35% palette/time drift speed. Background opacity is 35%, falling to 15% while the form is focused; animation pauses during focus within the banner. Pointer splats are disabled for CTA. Text and form panels are opaque white. Hero settings remain unchanged.
+
+CTA balanced-mode adjustment: 12 emitters, 18 seeded pools, fluid speed 0.45, time drift at 80% of hero. Background opacity 70% at rest and 40% during form focus. Keep opaque white copy/form panels and focus pausing. Supersedes the earlier calm-mode values.
