@@ -169,3 +169,7 @@ html{scrollbar-gutter:stable}
 #about .studio-liquid-title{color:#146ef5;background:radial-gradient(ellipse at 25% 40%,#72d9ed 0%,transparent 40%),radial-gradient(ellipse at 75% 60%,#a4b8ff 0%,transparent 42%),linear-gradient(110deg,#146ef5,#1148b8 45%,#146ef5);background-size:220% 220%,180% 200%,100% 100%;background-clip:text;-webkit-background-clip:text;-webkit-text-fill-color:transparent;animation:vision-liquid 5s ease-in-out infinite alternate}
 @keyframes vision-liquid{from{background-position:0% 20%,100% 80%,0 0}to{background-position:100% 75%,0% 20%,0 0}}
 @media(prefers-reduced-motion:reduce){#about .studio-liquid-title{animation:none}}
+
+/* Liquid-blue emphasis stays confined to the first principle sentence. */
+#principles .studio-principle-liquid{color:#146ef5;background:radial-gradient(ellipse at 20% 35%,#319dcf 0%,transparent 40%),radial-gradient(ellipse at 80% 65%,#526fe0 0%,transparent 42%),linear-gradient(110deg,#146ef5,#124caf 45%,#146ef5);background-size:220% 220%,180% 200%,100% 100%;background-clip:text;-webkit-background-clip:text;-webkit-text-fill-color:transparent;box-decoration-break:clone;-webkit-box-decoration-break:clone;animation:vision-liquid 5s ease-in-out infinite alternate}
+@media(prefers-reduced-motion:reduce){#principles .studio-principle-liquid{animation:none}}
