@@ -165,7 +165,7 @@ function currents(time, idle) {
   }
 }
 function frame(ms) {
-  raf=0;if(compact&&last&&ms-last<32){raf=requestAnimationFrame(frame);return}if(!visible||document.hidden||reduce||(calm&&host.matches(':focus-within'))){last=0;return;}clock+=last?Math.min(ms-last,40):16.67;last=ms;const time=clock/1000;
+  raf=0;if(compact&&last&&ms-last<32){raf=requestAnimationFrame(frame);return}if(!visible||document.hidden||document.documentElement.classList.contains('studio-modal-open')||reduce||(calm&&host.matches(':focus-within'))){last=0;return;}clock+=last?Math.min(ms-last,40):16.67;last=ms;const time=clock/1000;
   // 0 while the user is interacting, eases to 1 once idle: ambient motion steps back when the cursor takes over
   const idle = reduce ? 0 : Math.min(1, Math.max(0, (time - lastInput - IDLE_DELAY) / 2));
   if (idle > 0) currents(time, idle);
@@ -233,11 +233,11 @@ function seed() {
   gc.putImageData(id, 0, 0);
   grain.style.background = `url(${g.toDataURL()})`;
 }
-function sync(){cancelAnimationFrame(raf);raf=0;last=0;if(!img)return;if(reduce)render(0);else if(visible&&!document.hidden&&!(calm&&host.matches(':focus-within')))raf=requestAnimationFrame(frame)}
+function sync(){cancelAnimationFrame(raf);raf=0;last=0;if(!img)return;if(reduce)render(0);else if(visible&&!document.hidden&&!document.documentElement.classList.contains('studio-modal-open')&&!(calm&&host.matches(':focus-within')))raf=requestAnimationFrame(frame)}
 let resizeTimer;function fit(){const r=host.getBoundingClientRect();if(img&&Math.abs(r.width-W)<2&&Math.abs(r.height-H)<2)return;resize();seed();render(0);sync()}
 new ResizeObserver(()=>{clearTimeout(resizeTimer);resizeTimer=setTimeout(fit,img?120:0)}).observe(host);
 new IntersectionObserver(entries=>{visible=entries[0].isIntersecting;sync()},{rootMargin:'80px'}).observe(host);
-document.addEventListener('visibilitychange',sync);motion.addEventListener('change',()=>{reduce=motion.matches;mouse=prevMouse=null;sync()});if(calm){host.addEventListener('focusin',sync);host.addEventListener('focusout',()=>queueMicrotask(sync))}
+document.addEventListener('visibilitychange',sync);document.addEventListener('studio:modalchange',sync);motion.addEventListener('change',()=>{reduce=motion.matches;mouse=prevMouse=null;sync()});if(calm){host.addEventListener('focusin',sync);host.addEventListener('focusout',()=>queueMicrotask(sync))}
 
 
 });})();

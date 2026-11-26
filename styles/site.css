@@ -235,3 +235,9 @@ button,.w-button,.loonlab-primary-cta,.loonlab-nav-cta,.loonlab-secondary-button
 .studio-chevron,.loonlab-secondary-button .code-embed-7,.loonlab-secondary-button-2 .code-embed-7{transition:transform var(--studio-control-time) var(--studio-control-ease)}
 @media(hover:hover) and (pointer:fine){.studio-button:hover .studio-chevron,.loonlab-secondary-button:hover .code-embed-7,.loonlab-secondary-button-2:hover .code-embed-7{transform:translateX(2px)}}
 @media(prefers-reduced-motion:reduce){.studio-chevron,.loonlab-secondary-button .code-embed-7,.loonlab-secondary-button-2 .code-embed-7{transform:none!important}}
+
+/* Opening a modal must not re-filter the full animated page. */
+html{scrollbar-gutter:stable}
+.studio-dialog::backdrop{background:rgba(16,28,50,.48);backdrop-filter:none;-webkit-backdrop-filter:none}
+.studio-dialog{box-shadow:0 16px 48px #142c4b26}
+html.studio-modal-open .studio-liquid-title,html.studio-modal-open .studio-principle-liquid{animation-play-state:paused}

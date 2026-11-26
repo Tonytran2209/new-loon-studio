@@ -437,3 +437,6 @@ Critical head CSS hides semantic hero text only while the sand canvas prepares, 
 
 ### Control hover motion
 Controls share a 280ms cubic-bezier(.22,.61,.36,1) transition for background, text, border, shadow, opacity and transform. Keep CTA geometry stable. Arrow icons may move 2px only on fine-pointer hover. Reduced-motion rules override duration and icon movement.
+
+### Modal first-paint performance
+Use a dim backdrop without full-page backdrop blur and a smaller dialog shadow. Reserve scrollbar gutter. Opening a native dialog emits studio:modalchange and pauses background sand/fluid canvases until close. Dialog content is visible on the first frame; a subtle 180ms body entrance starts after two animation frames. Measure INP in the actual deployment; local functional tests do not establish a timing result.
