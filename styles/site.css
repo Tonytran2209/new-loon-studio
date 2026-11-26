@@ -241,3 +241,6 @@ html{scrollbar-gutter:stable}
 .studio-dialog::backdrop{background:rgba(16,28,50,.48);backdrop-filter:none;-webkit-backdrop-filter:none}
 .studio-dialog{box-shadow:0 16px 48px #142c4b26}
 html.studio-modal-open .studio-liquid-title,html.studio-modal-open .studio-principle-liquid{animation-play-state:paused}
+
+/* CMS rich text keeps the existing modal and editorial rhythm. */
+.studio-dialog-body figure{margin:0 0 24px}.studio-dialog-body figure img{display:block;margin:0}.studio-dialog-body figcaption,.studio-article-page figcaption{font-size:.8125rem;color:var(--studio-muted);margin-top:8px}.studio-article-page .studio-container{max-width:900px}.studio-article-page header{margin:32px 0}.studio-article-page h1{font-size:clamp(2rem,4.5vw,3.5rem);line-height:1.15;letter-spacing:-.035em}.studio-article-page figure{margin:32px 0}.studio-article-page figure img{width:100%;border-radius:10px}.studio-article-body{font-size:1.0625rem;line-height:1.8}.studio-article-body h2,.studio-article-body h3{margin:32px 0 12px}.studio-article-body p{margin:0 0 20px}.studio-article-body a{color:var(--studio-blue);text-decoration:underline}

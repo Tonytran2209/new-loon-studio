@@ -1,0 +1,19 @@
+{
+  "name": "loon-studio-website",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "test:cms": "node --test tests/cms.test.mjs",
+    "cms:extract": "node migration/scripts/extract.cjs"
+  },
+  "dependencies": {
+    "@sanity/client": "8.17.0",
+    "groq": "^6.25.0",
+    "jsdom": "26.1.0"
+  }
+}
