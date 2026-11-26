@@ -10,3 +10,7 @@ dist/
 migration/extracted/
 migration/reports/
 studio/inspect-content.cjs
+studio/finalize-import.cjs
+studio/configure-webhook.cjs
+studio/test-publish.cjs
+studio/check-webhook.cjs

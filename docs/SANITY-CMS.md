@@ -15,7 +15,7 @@ Home and settings use fixed document IDs. Other content uses Sanity IDs. Read-on
 1. Edit an existing document in Studio, or create a service/exploration/post/FAQ.
 2. Add title, unique slug (for services/explorations/posts), content and feature image with alt text. Set display order for homepage cards.
 3. Publish. Draft edits are never used in public builds.
-4. The website reads the published snapshot during the next Vercel deployment. A Deploy Hook must be connected for automatic publish-triggered deployments; otherwise use Vercel Redeploy.
+4. The website reads the published snapshot during the next Vercel deployment. The enabled Sanity webhook "Loon website — published content" calls the website Deploy Hook on published create/update/delete. Draft changes do not trigger deployments. Allow time for Vercel to finish the build.
 5. Check https://new-loon-studio.vercel.app/cms-version.json for build time and content counts.
 
 The article date is display metadata, not a publication scheduler. Don't put secrets in CMS content: this dataset's published content is publicly readable. Media is delivered by Sanity's CDN; privacy copy has been updated accordingly.
@@ -39,3 +39,5 @@ Use the Deploy Hook URL as destination. Treat it as a secret; don't commit it or
 npm ci; npm run build; npm run test:cms. Build fails if Sanity is unavailable or required singleton content is missing; it does not silently fall back to stale HTML. Source layout is templates/index.html; content is in CMS. Root index.html remains the pre-CMS source snapshot and isn't the deployed output.
 
 Migration plan: migration/PLAN.md. Extract with npm run cms:extract. Import via `cd studio && npx sanity exec import-content.cjs --with-user-token`. The importer uses createIfNotExists, so rerunning does not overwrite editor changes. Local snapshots, manifest and reports are gitignored. Never copy migration data, credentials or Studio source into dist.
+
+Migration completed: see ../migration/RESULTS.md. Automatic deployment webhook is enabled and was tested successfully.
