@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Rings Motion</title>
+<style>
+  :root { --stroke:#1F5FE0; --light:#E6EEFC; --dark:#82AEF5; --bg:#fff; }
+  html,body { margin:0; height:100%; background:var(--bg); }
+  body { display:grid; place-items:center; }
+  svg { width:100%; height:auto; overflow:visible; }
+  .s { fill:none; stroke:var(--stroke); stroke-width:2; stroke-linejoin:round; }
+  .dash { stroke-dasharray:6 6; }
+</style>
+</head>
+<body>
+<svg id="art" viewBox="-20 -20 820 840" role="img" aria-label="Ba vòng tròn lớn dần dọc theo một trục mũi tên">
+  <g id="rings"></g>
+  <line id="axis" class="s" x1="32" y1="402" x2="745" y2="402"/>
+  <polyline id="head" class="s" points="728,384 746,402 728,420"/>
+</svg>
+
+<script>
+// Each ring: front ellipse centre cx, radii rx/ry; back ellipse sits d px to the left.
+const RINGS = [
+  { cx: 222, rx: 76,  ry: 142, d: 38 },
+  { cx: 363, rx: 108, ry: 222, d: 42 },
+  { cx: 520, rx: 140, ry: 299, d: 50 },
+];
+const CY = 402, NS = 'http://www.w3.org/2000/svg';
+const $ = (tag, attrs, parent) => {
+  const el = document.createElementNS(NS, tag);
+  for (const k in attrs) el.setAttribute(k, attrs[k]);
+  return parent.appendChild(el), el;
+};
+const ell = (cx, rx, ry) =>
+  `M${cx},${CY - ry} A${rx},${ry} 0 1 0 ${cx},${CY + ry} A${rx},${ry} 0 1 0 ${cx},${CY - ry}Z`;
+
+const root = document.getElementById('rings');
+const els = RINGS.map(r => {
+  const b = r.cx - r.d, t = CY - r.ry, btm = CY + r.ry;
+  const g = $('g', {}, root);
+  // inner surface (right crescent) = front XOR back
+  const inner = $('path', { d: ell(r.cx, r.rx, r.ry) + ell(b, r.rx, r.ry), 'fill-rule': 'evenodd', fill: 'var(--light)' }, g);
+  // outer surface (left band) = silhouette minus front face
+  const sil = `M${b},${t} A${r.rx},${r.ry} 0 0 0 ${b},${btm} L${r.cx},${btm} A${r.rx},${r.ry} 0 0 0 ${r.cx},${t}Z`;
+  const outer = $('path', { d: sil + ell(r.cx, r.rx, r.ry), 'fill-rule': 'evenodd', fill: 'var(--light)' }, g);
+  $('path', { class: 's dash', d: `M${b},${t} A${r.rx},${r.ry} 0 0 1 ${b},${btm}` }, g);           // hidden back edge
+  $('path', { class: 's', d: `M${b},${t} A${r.rx},${r.ry} 0 0 0 ${b},${btm}` }, g);                // visible back edge
+  $('path', { class: 's', d: ell(r.cx, r.rx, r.ry) + `M${b},${t}H${r.cx}M${b},${btm}H${r.cx}` }, g); // front rim + top/bottom
+  return { g, outer, inner, x: r.cx - r.rx - r.d / 2 };
+});
+
+const axis = document.getElementById('axis'), head = document.getElementById('head');
+const L = 713;
+axis.style.strokeDasharray = L;
+
+const clamp = v => Math.max(0, Math.min(1, v));
+const ease = t => 1 - Math.pow(1 - t, 3);
+const back = t => { const c = 1.7; return 1 + (c + 1) * Math.pow(t - 1, 3) + c * Math.pow(t - 1, 2); };
+const mix = (a, b, t) => `rgb(${a.map((v, i) => Math.round(v + (b[i] - v) * t))})`;
+const LIGHT = [230, 238, 252], DARK = [130, 174, 245];
+const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+const INTRO = 1.8, LOOP = 3.2;
+function frame(ms) {
+  const s = reduce ? 99 : ms / 1000;
+  // intro: axis draws, rings pop in one by one
+  axis.style.strokeDashoffset = L * (1 - ease(clamp(s / 0.9)));
+
+  // loop: the arrowhead travels the axis; each ring lights up as it passes
+  const lt = !reduce && s > INTRO ? ((s - INTRO) % LOOP) / LOOP : -1;
+  const u = clamp(lt / 0.85), dx = 50 + 696 * (u < .5 ? 2 * u * u : 1 - 2 * (1 - u) * (1 - u));
+  // arrowhead tip (x=746) rides at dx; fades out at the end of each loop and back in at the start
+  head.setAttribute('transform', `translate(${lt < 0 ? 0 : dx - 746},0)`);
+  head.style.opacity = lt < 0 ? clamp((s - 0.7) / 0.3) : Math.min(1, lt * 20, (1 - lt) * 20);
+
+  els.forEach((e, i) => {
+    const p = back(clamp((s - 0.4 - i * 0.25) / 0.6));
+    const rest = i === 2 ? clamp((s - 1.2) / 0.5) : 0; // big ring stays dark like the original
+    const hit = reduce || lt < 0 ? 0 : Math.exp(-Math.pow((dx - e.x - 40) / 120, 2));
+    const glow = reduce ? (i === 2 ? 1 : 0) : Math.max(rest, hit);
+    const sc = p * (1 + 0.05 * hit);
+    e.g.setAttribute('transform', `translate(${e.x},${CY}) scale(${sc}) translate(${-e.x},${-CY})`);
+    e.g.style.opacity = clamp(p);
+    e.outer.setAttribute('fill', mix(LIGHT, DARK, glow));
+  });
+  if (!reduce) requestAnimationFrame(frame);
+}
+requestAnimationFrame(frame);
+</script>
+</body>
+</html>
