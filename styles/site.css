@@ -159,3 +159,9 @@ html{scrollbar-gutter:stable}
 .studio-contact .studio-contact-art{opacity:.7;transition:opacity .35s ease}
 .studio-contact:focus-within .studio-contact-art{opacity:.4}
 .studio-contact .studio-contact-copy,.studio-contact .studio-form{background:#fff}
+
+/* Soft glowing fluid replaces the halftone renderer at both surfaces. */
+.studio-hero-fluid,.studio-contact{background:#dce3fb}
+[data-glow-fluid]{display:block;position:absolute!important;inset:-6%!important;width:112%!important;height:112%!important;filter:blur(22px) saturate(1.15);background:#dce3fb;pointer-events:none}
+.studio-fluid-grain{position:absolute;inset:0;pointer-events:none;opacity:.16;mix-blend-mode:overlay}
+.studio-contact .studio-contact-art{opacity:.8}.studio-contact:focus-within .studio-contact-art{opacity:.55}

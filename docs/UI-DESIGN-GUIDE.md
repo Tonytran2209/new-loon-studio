@@ -401,3 +401,7 @@ Replace the hero collage image and previous CTA halftone renderer with the user-
 CTA fluid uses 6 ambient emitters, 8 seeds, slower fluid velocity and 35% palette/time drift speed. Background opacity is 35%, falling to 15% while the form is focused; animation pauses during focus within the banner. Pointer splats are disabled for CTA. Text and form panels are opaque white. Hero settings remain unchanged.
 
 CTA balanced-mode adjustment: 12 emitters, 18 seeded pools, fluid speed 0.45, time drift at 80% of hero. Background opacity 70% at rest and 40% during form focus. Keep opaque white copy/form panels and focus pausing. Supersedes the earlier calm-mode values.
+
+## 24. Glow fluid replaces pixel fluid
+
+Hero and CTA use scripts/glow-fluid.js, adapted from the supplied glow-fluid.html. Preserve the blue/aqua/lavender density colour ramp, luminous fluid edges, 22px blur, 112% overscan and subtle film grain. Each surface has independent simulation state and host-relative sizing. Hero supports pointer interaction; CTA retains opaque content surfaces and pauses while a form field is focused. Both pause offscreen or in a hidden tab, preserve touch scrolling, and render static seeded frames for reduced motion. CTA background opacity is 80% at rest and 55% while focused.
