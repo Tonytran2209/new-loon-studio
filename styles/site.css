@@ -198,3 +198,7 @@ html{scrollbar-gutter:stable}
 .studio-study:hover .studio-study-plus,.studio-study:focus-visible .studio-study-plus{color:#fff;background:#146ef5}
 @media(max-width:767px){.studio-dialog{padding:0;max-height:92dvh}.studio-dialog-header{padding:24px 76px 20px 24px;gap:12px}.studio-dialog .studio-dialog-header h2{font-size:24px}.studio-dialog .studio-dialog-close{top:16px;right:16px}.studio-dialog-body{padding:20px 24px 24px}.studio-dialog .studio-service-detail-grid{gap:24px}}
 @media(max-width:479px){#work .studio-study-visual>.studio-tag{top:12px;left:12px}.studio-study-plus{right:12px;bottom:12px}}
+
+/* Frosted plus control brightens to white on card hover/focus. */
+.studio-study-plus{background:rgba(255,255,255,.6);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);color:#333;transition:background-color .2s ease,border-color .2s ease}
+.studio-study:hover .studio-study-plus,.studio-study:focus-visible .studio-study-plus{background:#fff;border-color:#fff;color:#333}
