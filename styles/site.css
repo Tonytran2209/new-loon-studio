@@ -148,3 +148,9 @@ html{scrollbar-gutter:stable}
 #process iframe.studio-strategic-motion-frame{display:block;width:100%;height:auto;aspect-ratio:776/804;border:0;background:transparent;overflow:hidden}
 
 #process iframe.studio-scalability-motion{display:block;width:100%;height:auto;aspect-ratio:776/804;border:0;background:transparent;overflow:hidden}
+
+/* Shared pixel-fluid surfaces, with local input that never blocks form controls. */
+.studio-hero-fluid{position:relative;width:100%;aspect-ratio:4858/2763;overflow:hidden;border-radius:10px;background:#e3edfc;touch-action:pan-y}
+[data-pixel-fluid]{display:block;width:100%;height:100%;background:#e3edfc}
+.studio-hero-fluid canvas{position:absolute;inset:0}.studio-contact-art canvas{position:absolute;inset:0;pointer-events:none}.studio-contact{background:#e3edfc}
+#top .div-block-32142222375,#top .loonlab-visual-content{width:100%;min-width:0}#top .studio-hero-fluid{flex:none;width:100%;min-width:0}

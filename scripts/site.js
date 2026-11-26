@@ -24,19 +24,4 @@ form.querySelector('button[type="submit"]').disabled=false;
 // The user can browse without JavaScript; hide links to dialogs only when unsupported.
 if(!supportsDialog)$$('[data-dialog]').forEach(a=>{a.href='#contact';a.removeAttribute('data-dialog')});
 
-// Brand-blue halftone clouds: variable circular dots on a white field.
-(()=>{const canvas=document.querySelector('.studio-contact-dither');if(!canvas)return;const ctx=canvas.getContext('2d');if(!ctx)return;const banner=canvas.closest('.studio-contact');
-const waveSeed=Math.random()*10000;
-function waveNoise(t,channel){const i=Math.floor(t),f=t-i,u=f*f*(3-2*f),hash=n=>{const v=Math.sin(n*127.1+channel*311.7+waveSeed)*43758.5453;return (v-Math.floor(v))*2-1};return hash(i)*(1-u)+hash(i+1)*u}
-const matrix=[0,8,2,10,12,4,14,6,3,11,1,9,15,7,13,5];let width=0,height=0,frame=0,visible=false,last=0,elapsed=0;const pointer={x:.5,y:.5,tx:.5,ty:.5,power:0,target:0};
-function draw(time=0){const step=10,dpr=Math.min(devicePixelRatio||1,2),phase=time*.001;ctx.setTransform(dpr,0,0,dpr,0,0);ctx.fillStyle='#e6f0ff';ctx.fillRect(0,0,width,height);const drift=waveNoise(phase*.22,3);
-for(let y=step/2;y<height;y+=step){for(let x=step/2;x<width;x+=step){const nx=x/Math.max(width,1),ny=y/Math.max(height,1),dx=x-pointer.x*width,dy=y-pointer.y*height,dist=Math.hypot(dx,dy);const influence=Math.exp(-dist*dist/22000)*pointer.power;const field=Math.sin(nx*12+Math.sin(ny*7+phase*.48)*1.6+phase*.55)+Math.cos(ny*11-nx*3-phase*.43)+.5*Math.sin(nx*21+ny*13+phase*.32+drift);const density=Math.max(0,Math.min(1,(field+.2)/2.15+influence*.65));if(density<.025)continue;const radius=4.5*Math.pow(density,.7);const core=Math.max(0,(density-.6)/.4);ctx.fillStyle=`rgba(20,110,245,${.85-core*.61})`;ctx.beginPath();ctx.arc(x,y,radius,0,Math.PI*2);ctx.fill()}}
-}
-function tick(t){if(!visible||reduced.matches||document.hidden){frame=0;last=0;return}const dt=last?Math.min(t-last,50):16.7;last=t;elapsed+=dt;const ease=1-Math.exp(-dt/110);pointer.x+=(pointer.tx-pointer.x)*ease;pointer.y+=(pointer.ty-pointer.y)*ease;pointer.power+=(pointer.target-pointer.power)*ease;draw(elapsed);frame=requestAnimationFrame(tick)}
-function sync(){cancelAnimationFrame(frame);frame=0;last=0;draw(reduced.matches?0:elapsed);if(visible&&!reduced.matches&&!document.hidden)frame=requestAnimationFrame(tick)}
-banner.addEventListener('pointermove',e=>{if(e.pointerType==='touch'||reduced.matches)return;const r=banner.getBoundingClientRect();pointer.tx=(e.clientX-r.left)/r.width;pointer.ty=(e.clientY-r.top)/r.height;pointer.target=1},{passive:true});banner.addEventListener('pointerleave',()=>{pointer.target=0},{passive:true});
-new ResizeObserver(entries=>{const r=entries[0].contentRect;width=r.width;height=r.height;const dpr=Math.min(devicePixelRatio||1,2);canvas.width=Math.round(width*dpr);canvas.height=Math.round(height*dpr);sync()}).observe(canvas.parentElement);
-new IntersectionObserver(entries=>{visible=entries[0].isIntersecting;sync()},{rootMargin:'80px'}).observe(canvas);reduced.addEventListener('change',()=>{pointer.target=0;pointer.power=0;sync()});document.addEventListener('visibilitychange',sync);
-})();
-
 })();

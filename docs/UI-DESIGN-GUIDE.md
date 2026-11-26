@@ -392,3 +392,7 @@ The lab uses three nonfigurative gradient studies in assets/lab: diffuse colour 
 ## 22. Expanded abstract palette for Solutions and Explore more
 
 These two sections now use nonfigurative artwork from assets/editorial-v2. Keep blue #146EF5 as the anchor while varying pastel accents: Brand lavender/rose, Web mint/cyan, Motion periwinkle/peach; AI orchid/pink, Workflow turquoise/mint/lavender, Simplicity peach/ice lavender. Keep fine grain, soft optical gradients and controlled contrast. Avoid literal screens or sculptural product objects. Preserve all live copy, card layouts and interactions. Inside the lab retains its separate artwork family.
+
+## 23. Shared pixel-fluid hero and CTA
+
+Replace the hero collage image and previous CTA halftone renderer with the user-supplied pixel-fluid solver, adapted in scripts/pixel-fluid.js. Each canvas owns its solver state and measures its host. Keep the source lavender/blue/cyan/mint palette and #E3EDFC background. Hero preserves the original 4858:2763 visual ratio and 10px corners. CTA canvas stays behind text/form without pointer interception; mouse coordinates are collected on the banner parent. Touch scrolling remains native. ResizeObserver rebuilds the grid; IntersectionObserver and document visibility pause animation; reduced-motion users receive a static seeded frame. No external libraries or network calls are required.
