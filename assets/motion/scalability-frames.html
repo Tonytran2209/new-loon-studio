@@ -6,9 +6,9 @@
 <title>Frames Motion</title>
 <style>
   :root { --stroke:#1F5FE0; --soft:#A9C1EE; --light:#E6EEFC; --dark:#82AEF5; --bg:#fff; }
-  html,body { margin:0; height:100%; background:var(--bg); }
+  html,body { margin:0; width:100%; height:100%; overflow:hidden; background:var(--bg); }
   body { display:grid; place-items:center; }
-  svg { width:100%; height:auto; overflow:visible; }
+  svg { display:block; width:100%; height:100%; overflow:hidden; }
   .s { stroke:var(--stroke); stroke-width:2; stroke-linejoin:round; stroke-linecap:round; fill:none; }
 </style>
 </head>
