@@ -154,3 +154,8 @@ html{scrollbar-gutter:stable}
 [data-pixel-fluid]{display:block;width:100%;height:100%;background:#e3edfc}
 .studio-hero-fluid canvas{position:absolute;inset:0}.studio-contact-art canvas{position:absolute;inset:0;pointer-events:none}.studio-contact{background:#e3edfc}
 #top .div-block-32142222375,#top .loonlab-visual-content{width:100%;min-width:0}#top .studio-hero-fluid{flex:none;width:100%;min-width:0}
+
+/* CTA focus: subdued peripheral motion and fully opaque reading surfaces. */
+.studio-contact .studio-contact-art{opacity:.35;transition:opacity .35s ease}
+.studio-contact:focus-within .studio-contact-art{opacity:.15}
+.studio-contact .studio-contact-copy,.studio-contact .studio-form{background:#fff}

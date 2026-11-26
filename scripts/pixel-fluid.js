@@ -1,17 +1,18 @@
 /* Adapted from the user-supplied pixel-fluid.html; isolated per surface. */
 (()=>{document.querySelectorAll('[data-pixel-fluid]').forEach(cv=>{const host=cv.closest('[data-fluid-host]');if(!host)return;
 
+const calm=host.classList.contains('studio-contact');
 // ---- tweakables ----
 const CELL = 14;              // grid spacing (CSS px) = one fluid cell = one dot
-const EMITTERS = 15;          // ambient sources that keep the fluid flowing
+const EMITTERS = calm ? 6 : 15;          // ambient sources that keep the fluid flowing
 const MOUSE_FORCE = 0.3;      // how hard the cursor pushes the fluid
 const MOUSE_RADIUS = 56;      // px
-const SPEED = 0.55;           // global time scale of the flow (lower = slower, heavier)
+const SPEED = calm ? 0.2 : 0.55;           // global time scale of the flow (lower = slower, heavier)
 const VISCOSITY = 2.2;        // thick liquid: high viscosity smooths flow into broad, coherent sweeps
 const DYE_FADE = 0.986;       // per frame; liquid lingers instead of vanishing like smoke
 const VEL_FADE = 0.985;       // flow settles quickly after a push
 const VORTICITY = 0.04;       // a little curl only; high values look like smoke
-const SEEDS = 20;             // liquid pools already on screen at load
+const SEEDS = calm ? 8 : 20;             // liquid pools already on screen at load
 // palette sampled from the gradient image: lavender → periwinkle → blue → deep blue → cyan → mint
 const PALETTE = [[185,168,245],[127,166,242],[59,139,240],[10,99,224],[73,198,240],[126,235,213]];
 
@@ -133,7 +134,7 @@ function palette(t) {
 
 // ---------- input ----------
 let mouse = null, prevMouse = null;
-host.addEventListener('pointermove', e => { if(reduce||e.pointerType==='touch')return;const r=host.getBoundingClientRect();mouse = { x: e.clientX-r.left, y: e.clientY-r.top }; },{passive:true});
+host.addEventListener('pointermove', e => { if(calm||reduce||e.pointerType==='touch')return;const r=host.getBoundingClientRect();mouse = { x: e.clientX-r.left, y: e.clientY-r.top }; },{passive:true});
 host.addEventListener('pointerleave', () => { mouse = prevMouse = null; },{passive:true});
 
 // ambient emitters: wander on slow lissajous paths, pushing dye along their direction of travel
@@ -145,7 +146,7 @@ const ePos = (e, t) => [W * (e.cx + 0.14 * Math.sin(t * e.fx * 6.28 + e.ph)), H 
 
 const motion=matchMedia('(prefers-reduced-motion: reduce)');let reduce=motion.matches,raf=0,visible=false,last=0,clock=0;
 function frame(ms) {
-  raf=0;if(!visible||document.hidden||reduce){last=0;return;}clock+=last?Math.min(ms-last,40):16.67;last=ms;const time=clock/1000;
+  raf=0;if(!visible||document.hidden||reduce||(calm&&host.matches(':focus-within'))){last=0;return;}clock+=last?Math.min(ms-last,40):16.67;last=ms;const time=clock/1000*(calm?.35:1);
   const et = reduce ? 0 : time;
   for (const e of emitters) {
     const [x, y] = ePos(e, et), [x2, y2] = ePos(e, et + 0.1);
@@ -199,9 +200,10 @@ function seed() {
   }
   for (let i = 0; i < 90; i++) step();
 }
-function sync(){cancelAnimationFrame(raf);raf=0;last=0;if(reduce)render(0);else if(visible&&!document.hidden)raf=requestAnimationFrame(frame)}
+function sync(){cancelAnimationFrame(raf);raf=0;last=0;if(reduce)render(0);else if(visible&&!document.hidden&&!(calm&&host.matches(':focus-within')))raf=requestAnimationFrame(frame)}
 new ResizeObserver(()=>{resize();seed();render(0);sync()}).observe(host);
 new IntersectionObserver(entries=>{visible=entries[0].isIntersecting;sync()},{rootMargin:'80px'}).observe(host);
+if(calm){host.addEventListener('focusin',sync);host.addEventListener('focusout',()=>queueMicrotask(sync));}
 document.addEventListener('visibilitychange',sync);motion.addEventListener('change',()=>{reduce=motion.matches;mouse=prevMouse=null;sync()});
 
 });})();

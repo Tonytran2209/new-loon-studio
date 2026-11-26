@@ -396,3 +396,6 @@ These two sections now use nonfigurative artwork from assets/editorial-v2. Keep 
 ## 23. Shared pixel-fluid hero and CTA
 
 Replace the hero collage image and previous CTA halftone renderer with the user-supplied pixel-fluid solver, adapted in scripts/pixel-fluid.js. Each canvas owns its solver state and measures its host. Keep the source lavender/blue/cyan/mint palette and #E3EDFC background. Hero preserves the original 4858:2763 visual ratio and 10px corners. CTA canvas stays behind text/form without pointer interception; mouse coordinates are collected on the banner parent. Touch scrolling remains native. ResizeObserver rebuilds the grid; IntersectionObserver and document visibility pause animation; reduced-motion users receive a static seeded frame. No external libraries or network calls are required.
+
+### CTA calm mode
+CTA fluid uses 6 ambient emitters, 8 seeds, slower fluid velocity and 35% palette/time drift speed. Background opacity is 35%, falling to 15% while the form is focused; animation pauses during focus within the banner. Pointer splats are disabled for CTA. Text and form panels are opaque white. Hero settings remain unchanged.
