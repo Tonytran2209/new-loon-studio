@@ -409,3 +409,6 @@ Hero and CTA use scripts/glow-fluid.js, adapted from the supplied glow-fluid.htm
 ## 25. Human vision motion
 
 The 32-dot illustration uses independent staggered pulse animations. Scroll velocity increases playback from 1× up to 5.5×, decaying smoothly back to baseline after scrolling. Pause outside the viewport or in background tabs and show a static pattern for reduced motion. Human vision text uses clipped animated blue/aqua gradients with dark-blue contrast. Scope all animation to #about; preserve the established two-column layout.
+
+### Restore original point-of-view scroll motion
+The Human vision dot illustration again uses its original Webflow scroll-scrub timeline (scrub 0.8), without velocity-based acceleration. Its entry trigger starts 120px before the original viewport boundary so the point-of-view visual begins sooner. The liquid-blue title treatment remains.
