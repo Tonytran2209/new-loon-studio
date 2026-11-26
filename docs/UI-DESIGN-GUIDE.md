@@ -434,3 +434,6 @@ Hero aspect ratio is 16:10 on tablets and 4:3 on phones. Compact/coarse input us
 
 ### Entrances and first paint
 Critical head CSS hides semantic hero text only while the sand canvas prepares, with a 4.5s fallback and reduced-motion exemption. Entrance observers animate 45 content groups once on viewport entry using independent translate and opacity. Related content receives up to 225ms stagger; mobile uses 16px/460ms motion. Never hide content with CSS dependent on the entrance script. Keyboard focus finishes active animation; reduced-motion skips entrances. Dialog header/body entrance runs on open.
+
+### Control hover motion
+Controls share a 280ms cubic-bezier(.22,.61,.36,1) transition for background, text, border, shadow, opacity and transform. Keep CTA geometry stable. Arrow icons may move 2px only on fine-pointer hover. Reduced-motion rules override duration and icon movement.

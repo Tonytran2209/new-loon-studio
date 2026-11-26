@@ -220,3 +220,18 @@ html{scrollbar-gutter:stable}
 /* Keep fluid art substantial on small screens without increasing solver workload. */
 @media(max-width:1024px){#top .studio-hero-fluid{aspect-ratio:16/10}#top [data-glow-fluid]{filter:blur(16px) saturate(1.12)}}
 @media(max-width:600px){#top .studio-hero-fluid{aspect-ratio:4/3;border-radius:10px}#top [data-glow-fluid]{filter:blur(12px) saturate(1.1)}#top .studio-fluid-grain{opacity:.11}}
+
+/* Consistent, reversible hover transitions; never animate layout dimensions. */
+:root{--studio-control-ease:cubic-bezier(.22,.61,.36,1);--studio-control-time:280ms}
+button,.w-button,.loonlab-primary-cta,.loonlab-nav-cta,.loonlab-secondary-button,.loonlab-secondary-button-2,.studio-button,.studio-dialog .studio-dialog-close,.w-nav-button,.w-tab-link,.navbar_dropdown-list .navbar_dropdown-list-link,.studio-study-plus,.studio-faq summary{
+ transition-property:background-color,color,border-color,box-shadow,opacity,transform;
+ transition-duration:var(--studio-control-time);
+ transition-timing-function:var(--studio-control-ease);
+}
+.loonlab-primary-cta,.loonlab-nav-cta,.studio-button{transform:none}
+.loonlab-primary-cta:hover,.loonlab-nav-cta:hover,.studio-button:not(.secondary):hover{box-shadow:inset 0 1px 1px #fff3,inset 0 6px 12px #ffffff1f,0 1px 2px #08080826,0 2px 3px #0808081a;transform:none}
+.loonlab-secondary-button,.loonlab-secondary-button-2,.studio-button.secondary{transform:none}
+.loonlab-secondary-button:hover,.loonlab-secondary-button-2:hover,.studio-button.secondary:hover{transform:none}
+.studio-chevron,.loonlab-secondary-button .code-embed-7,.loonlab-secondary-button-2 .code-embed-7{transition:transform var(--studio-control-time) var(--studio-control-ease)}
+@media(hover:hover) and (pointer:fine){.studio-button:hover .studio-chevron,.loonlab-secondary-button:hover .code-embed-7,.loonlab-secondary-button-2:hover .code-embed-7{transform:translateX(2px)}}
+@media(prefers-reduced-motion:reduce){.studio-chevron,.loonlab-secondary-button .code-embed-7,.loonlab-secondary-button-2 .code-embed-7{transform:none!important}}
