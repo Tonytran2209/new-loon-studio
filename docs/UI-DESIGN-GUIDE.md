@@ -431,3 +431,6 @@ Normalize brush force by pointer velocity. Vary grain mass and drag, add subtle 
 
 ### Responsive hero fluid
 Hero aspect ratio is 16:10 on tablets and 4:3 on phones. Compact/coarse input uses a roughly 3600-cell budget, 30fps cap, fewer solver iterations and warmup steps, and reusable velocity buffers. Passive touch input supports local taps and horizontal strokes while yielding vertical gestures to scrolling. Resize rebuilds are debounced; offscreen/background and reduced-motion pauses remain in place.
+
+### Entrances and first paint
+Critical head CSS hides semantic hero text only while the sand canvas prepares, with a 4.5s fallback and reduced-motion exemption. Entrance observers animate 45 content groups once on viewport entry using independent translate and opacity. Related content receives up to 225ms stagger; mobile uses 16px/460ms motion. Never hide content with CSS dependent on the entrance script. Keyboard focus finishes active animation; reduced-motion skips entrances. Dialog header/body entrance runs on open.
