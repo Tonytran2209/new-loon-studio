@@ -422,3 +422,6 @@ Lab study cards place Studio exploration absolutely 16px from the image's top-le
 ## 27. Hero sand heading
 
 The semantic H1 keeps the exact text and browser line wrapping in a live span. scripts/hero-sand.js rasterizes the loaded font into a temporary mask and samples small blue particles. On load, dispersed particles spring into the text silhouette with staggered opacity. Pointer movement repels nearby particles with capped velocity; a damped spring restores each particle after the pointer leaves. A slow blue gradient moves across the assembled text. Canvas is decorative and never intercepts pointer or button interaction. Rebuild after font loading/resizing, pause offscreen/in background tabs and retain static blue text for reduced motion or unsupported canvas. Clip overflow within the hero so scattered grains do not create horizontal scrolling.
+
+### Hero sand refinement
+Use dense circular grains (1.15–1.25px sampling). Pointer movement applies directional swipe impulses; a stationary pointer applies no force. Grains begin spring recovery 500ms after the last impulse. Disable selection on the decorative hero heading to prevent the semantic text appearing underneath the canvas.

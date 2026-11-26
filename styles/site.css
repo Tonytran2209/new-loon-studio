@@ -211,3 +211,6 @@ html{scrollbar-gutter:stable}
 @media(prefers-reduced-motion:reduce){.studio-sand-canvas{display:none}.studio-sand-ready .studio-sand-text{color:#146ef5}}
 
 #top{overflow:hidden}
+
+#top-heading,#top-heading *{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none;text-shadow:none!important}
+#top-heading::selection,#top-heading *::selection{background:transparent;color:transparent}
