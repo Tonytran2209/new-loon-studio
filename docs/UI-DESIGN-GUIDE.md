@@ -412,3 +412,9 @@ The 32-dot illustration uses independent staggered pulse animations. Scroll velo
 
 ### Restore original point-of-view scroll motion
 The Human vision dot illustration again uses its original Webflow scroll-scrub timeline (scrub 0.8), without velocity-based acceleration. Its entry trigger starts 120px before the original viewport boundary so the point-of-view visual begins sooner. The liquid-blue title treatment remains.
+
+## 26. Unified popup and lab-card spacing
+
+All 13 dialogs use a dedicated sticky white header and separate body. Desktop header padding is 32px left/top, 24px bottom, with 88px right clearance for the 44×44px close control (20px SVG cross, radius 10px, inset 24px). Header title/tag spacing is 12px. Body padding 24px 32px 32px; sibling content spacing 16px, section headings 28px and footer divider spacing 28/24px. On mobile use 24px horizontal padding and preserve close clearance. Escape, backdrop dismissal, focus return and service prefill remain intact.
+
+Lab study cards place Studio exploration absolutely 16px from the image's top-left, and a decorative plus inside a 44px rounded square 16px from bottom-right (12px offsets on narrow phones). The existing full-card link handles activation; do not nest another button. Use opaque light backgrounds for legibility over artwork.

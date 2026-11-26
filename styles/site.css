@@ -173,3 +173,28 @@ html{scrollbar-gutter:stable}
 /* Liquid-blue emphasis stays confined to the first principle sentence. */
 #principles .studio-principle-liquid{color:#146ef5;background:radial-gradient(ellipse at 20% 35%,#319dcf 0%,transparent 40%),radial-gradient(ellipse at 80% 65%,#526fe0 0%,transparent 42%),linear-gradient(110deg,#146ef5,#124caf 45%,#146ef5);background-size:220% 220%,180% 200%,100% 100%;background-clip:text;-webkit-background-clip:text;-webkit-text-fill-color:transparent;box-decoration-break:clone;-webkit-box-decoration-break:clone;animation:vision-liquid 5s ease-in-out infinite alternate}
 @media(prefers-reduced-motion:reduce){#principles .studio-principle-liquid{animation:none}}
+
+/* Unified dialog spacing and a dedicated close-button header. */
+.studio-dialog{padding:0;border-radius:20px;max-height:90dvh;scroll-padding-top:160px}
+.studio-dialog-header{position:sticky;top:0;z-index:3;display:flex;flex-direction:column;align-items:flex-start;gap:12px;padding:32px 88px 24px 32px;background:#fff;border-bottom:1px solid var(--studio-line)}
+.studio-dialog .studio-dialog-header h2{margin:0;font-size:clamp(24px,2.5vw,30px);line-height:1.25;font-weight:500}
+.studio-dialog .studio-dialog-header .studio-eyebrow{margin:0}
+.studio-dialog .studio-dialog-close{position:absolute;inset:24px 24px auto auto;width:44px;height:44px;min-width:44px;padding:0;line-height:1;display:flex;align-items:center;justify-content:center;background:#f1f1f1;border-radius:10px;cursor:pointer;transition:background .2s,color .2s}
+.studio-dialog-close:hover{background:#e6e8ed;color:#146ef5}.studio-dialog-close:focus-visible{outline:2px solid #146ef5;outline-offset:3px}.studio-dialog-close svg{display:block;flex:none}
+.studio-dialog-body{padding:24px 32px 32px;display:flow-root}
+.studio-dialog .studio-dialog-body> *{margin:0}
+.studio-dialog .studio-dialog-body> *+*{margin-top:16px}
+.studio-dialog .studio-dialog-body>h3{margin-top:28px;margin-bottom:0;font-size:18px;line-height:1.4}
+.studio-dialog .studio-dialog-body>h3:first-child{margin-top:0}
+.studio-dialog .studio-dialog-body>img{display:block;width:100%;max-height:380px;aspect-ratio:4/3;object-fit:cover;border-radius:10px;margin-bottom:0}
+.studio-dialog .studio-dialog-body>ul{padding-left:24px}.studio-dialog-body li+li{margin-top:8px}
+.studio-dialog .studio-dialog-body>.studio-dialog-end{margin-top:28px;padding-top:24px}
+.studio-dialog .studio-service-detail-grid{gap:28px;padding-top:24px}
+.studio-dialog .studio-service-detail-grid h3{margin:0 0 12px}.studio-dialog .studio-service-detail-grid p,.studio-dialog .studio-service-detail-grid ul{margin:0}
+.studio-dialog-body textarea{display:block;width:100%;min-height:180px;border:1px solid #d4d8e1;border-radius:10px;padding:12px;font:14px/1.6 Inter,Arial,sans-serif}
+#work .studio-study-visual{position:relative;isolation:isolate;border-radius:10px}
+#work .studio-study-visual>.studio-tag{position:absolute;top:16px;left:16px;z-index:1;max-width:calc(100% - 32px);padding:6px 10px;color:#333;background:#fffffff2;border:1px solid #ffffffb3;border-radius:10px;font-size:13px;line-height:20px}
+.studio-study-plus{position:absolute;right:16px;bottom:16px;z-index:1;display:grid;place-items:center;width:44px;height:44px;border-radius:10px;color:#333;background:#fffffff2;border:1px solid #ffffffb3;transition:background .2s,color .2s}
+.studio-study:hover .studio-study-plus,.studio-study:focus-visible .studio-study-plus{color:#fff;background:#146ef5}
+@media(max-width:767px){.studio-dialog{padding:0;max-height:92dvh}.studio-dialog-header{padding:24px 76px 20px 24px;gap:12px}.studio-dialog .studio-dialog-header h2{font-size:24px}.studio-dialog .studio-dialog-close{top:16px;right:16px}.studio-dialog-body{padding:20px 24px 24px}.studio-dialog .studio-service-detail-grid{gap:24px}}
+@media(max-width:479px){#work .studio-study-visual>.studio-tag{top:12px;left:12px}.studio-study-plus{right:12px;bottom:12px}}
