@@ -380,3 +380,7 @@ Each page load seeds a fresh wave pattern. Smoothly interpolated random values m
 Supersedes the violet square dither background: use round brand-blue #146EF5 dots on white, on a 10px grid with radii up to 4.5px. A continuously evolving layered wave field forms organic clusters and negative spaces. Dense cores use lighter blue to echo the reference’s soft glow. Retain smooth cursor influence, offscreen/background-tab pausing and static reduced-motion rendering. Copy and form retain readable white surfaces.
 
 CTA halftone update: use pastel blue #E6F0FF as both CSS fallback and canvas background; border #C9DDFB. The Scalability iframe SVG fits its viewport at width/height 100%, with document overflow hidden so no scrollbar track appears.
+
+## 20. Service feature artwork
+
+Use the coordinated generated gradient artworks in assets/services: Brand has interlocking identity forms, Web layered responsive interface planes, Motion a flowing ribbon. All share #146EF5 electric blue, ice blue, cyan and restrained periwinkle with soft gradient lighting. Keep the existing 4:3 image frame, cover sizing and 10px corners. Images contain no text; copy remains live HTML. Optimized JPEG assets are 1200px wide and approximately 100KB each.
