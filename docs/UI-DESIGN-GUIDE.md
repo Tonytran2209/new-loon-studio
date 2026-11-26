@@ -405,3 +405,7 @@ CTA balanced-mode adjustment: 12 emitters, 18 seeded pools, fluid speed 0.45, ti
 ## 24. Glow fluid replaces pixel fluid
 
 Hero and CTA use scripts/glow-fluid.js, adapted from the supplied glow-fluid.html. Preserve the blue/aqua/lavender density colour ramp, luminous fluid edges, 22px blur, 112% overscan and subtle film grain. Each surface has independent simulation state and host-relative sizing. Hero supports pointer interaction; CTA retains opaque content surfaces and pauses while a form field is focused. Both pause offscreen or in a hidden tab, preserve touch scrolling, and render static seeded frames for reduced motion. CTA background opacity is 80% at rest and 55% while focused.
+
+## 25. Human vision motion
+
+The 32-dot illustration uses independent staggered pulse animations. Scroll velocity increases playback from 1× up to 5.5×, decaying smoothly back to baseline after scrolling. Pause outside the viewport or in background tabs and show a static pattern for reduced motion. Human vision text uses clipped animated blue/aqua gradients with dark-blue contrast. Scope all animation to #about; preserve the established two-column layout.
