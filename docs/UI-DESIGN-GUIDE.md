@@ -374,3 +374,7 @@ The decorative background follows an ordered-dither reference: saturated violet 
 
 ### Randomized wave motion
 Each page load seeds a fresh wave pattern. Smoothly interpolated random values modulate wave height, frequency, phase and vertical drift, with a stronger 20–27% primary wave and a 12% secondary wave. Keep randomness continuous over time; never regenerate per-frame noise. Preserve pointer ripples, reduced-motion handling and offscreen pausing.
+
+## 19. CTA halftone cloud background
+
+Supersedes the violet square dither background: use round brand-blue #146EF5 dots on white, on a 10px grid with radii up to 4.5px. A continuously evolving layered wave field forms organic clusters and negative spaces. Dense cores use lighter blue to echo the reference’s soft glow. Retain smooth cursor influence, offscreen/background-tab pausing and static reduced-motion rendering. Copy and form retain readable white surfaces.
