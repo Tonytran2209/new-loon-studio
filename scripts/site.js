@@ -37,4 +37,7 @@ banner.addEventListener('pointermove',e=>{if(e.pointerType==='touch'||reduced.ma
 new ResizeObserver(entries=>{const r=entries[0].contentRect;width=r.width;height=r.height;const dpr=Math.min(devicePixelRatio||1,2);canvas.width=Math.round(width*dpr);canvas.height=Math.round(height*dpr);sync()}).observe(canvas.parentElement);
 new IntersectionObserver(entries=>{visible=entries[0].isIntersecting;sync()},{rootMargin:'80px'}).observe(canvas);reduced.addEventListener('change',()=>{pointer.target=0;pointer.power=0;sync()});document.addEventListener('visibilitychange',sync);
 })();
+
+// Keep the supplied illustration's mouse tilt local to the Strategic panel.
+(()=>{const scene=document.querySelector('.studio-strategic-motion');if(!scene)return;const svg=scene.querySelector('svg');let tx=0,ty=0,x=0,y=0,raf=0;function tick(){x+=(tx-x)*.08;y+=(ty-y)*.08;svg.style.transform=`rotateX(${y}deg) rotateY(${x}deg)`;raf=Math.abs(tx-x)+Math.abs(ty-y)>.01?requestAnimationFrame(tick):0}function move(a,b){tx=a;ty=b;if(!raf)raf=requestAnimationFrame(tick)}scene.addEventListener('pointermove',e=>{if(reduced.matches||e.pointerType==='touch')return;const r=scene.getBoundingClientRect();move(((e.clientX-r.left)/r.width-.5)*18,-((e.clientY-r.top)/r.height-.5)*18)},{passive:true});scene.addEventListener('pointerleave',()=>move(0,0));reduced.addEventListener('change',()=>move(0,0));})();
 })();
