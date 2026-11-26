@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cube Motion</title>
+<style>
+  :root { --stroke:#1F5FE0; --light:#E6EEFC; --dark:#82AEF5; --bg:#fff; }
+  html,body { margin:0; height:100%; background:var(--bg); }
+  body { display:grid; place-items:center; }
+  svg { width:100%; height:auto; overflow:visible; }
+  .s { stroke:var(--stroke); stroke-width:2; stroke-linejoin:round; }
+</style>
+</head>
+<body>
+<svg viewBox="-20 -20 820 840" role="img" aria-label="Ba tấm vuông bo góc tách ra quanh một vòng tròn nét đứt, ghép lại thành khối lập phương">
+  <circle id="ring" class="s" cx="394" cy="437" r="209" fill="none" stroke-dasharray="9 9"/>
+  <g id="slabs"></g>
+</svg>
+
+<script>
+const CX = 394, CY = 411, S = 145, R = 46, T = 28;      // slab half-size, corner radius, thickness
+const OPEN = 228, CLOSED = S + T + 8;                    // distance of slab face from cube centre
+const C30 = Math.cos(Math.PI / 6);
+const proj = ([x, y, z]) => [CX + (x - y) * C30, CY + (x + y) * 0.5 - z];
+const add = (a, b, k = 1) => a.map((v, i) => v + b[i] * k);
+
+// n = face normal (towards viewer), u/v = in-plane axes; `dark` = which axis's + side is dark blue
+const SLABS = [
+  { n: [0, 0, 1], u: [1, 0, 0], v: [0, 1, 0], dark: 'u' }, // top
+  { n: [0, 1, 0], u: [1, 0, 0], v: [0, 0, 1], dark: 'u' }, // left
+  { n: [1, 0, 0], u: [0, 1, 0], v: [0, 0, 1], dark: 'v' }, // right
+];
+
+// rounded-square outline in (a,b), split into groups: 4 flat sides + 4 corner arcs
+const GROUPS = [];
+[0, 1, 2, 3].forEach(k => {
+  // corner arc: centre (±(S-R), ±(S-R)), sweeping the outward quarter
+  const a0 = k * Math.PI / 2, arc = [], ang = [];
+  for (let i = 0; i <= 12; i++) {
+    const t = a0 + i / 12 * Math.PI / 2;
+    ang.push(t);
+    arc.push([Math.sign(Math.cos(a0 + Math.PI / 4)) * (S - R) + R * Math.cos(t),
+              Math.sign(Math.sin(a0 + Math.PI / 4)) * (S - R) + R * Math.sin(t)]);
+  }
+  GROUPS.push({ pts: arc, ang, corner: true });
+  const next = a0 + Math.PI / 2, end = arc[12];
+  const nd = [Math.cos(next + Math.PI / 4), Math.sin(next + Math.PI / 4)].map(Math.sign);
+  const start2 = [nd[0] * (S - R) + R * Math.cos(next), nd[1] * (S - R) + R * Math.sin(next)];
+  GROUPS.push({ pts: [end, start2], corner: false, dir: [Math.round(Math.cos(next)), Math.round(Math.sin(next))] });
+});
+const OUTLINE = GROUPS.flatMap(g => g.pts);
+const VIEW = [1, 1, 1];
+const dot = (a, b) => a[0] * b[0] + a[1] * b[1] + a[2] * b[2];
+
+const NS = 'http://www.w3.org/2000/svg', root = document.getElementById('slabs');
+const mk = (tag, attrs, parent) => { const e = document.createElementNS(NS, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); return parent.appendChild(e); };
+
+SLABS.forEach(sl => {
+  sl.g = mk('g', {}, root);
+  const facing = d => dot(add(sl.u.map(v => v * d[0]), sl.v, d[1]), VIEW) > 1e-6;
+  const flatFill = gr => (gr.dir[0] ? 'u' : 'v') === sl.dark ? 'var(--dark)' : 'none';
+  // every outline segment: visible? and its fill. A fully visible corner is light blue;
+  // a half-visible corner takes the colour of the flat side it continues (as in the original).
+  const segs = [];
+  GROUPS.forEach((gr, gi) => {
+    const n = gr.pts.length - 1, vis = [];
+    for (let i = 0; i < n; i++) {
+      const t = gr.corner ? (gr.ang[i] + gr.ang[i + 1]) / 2 : 0;
+      vis.push(facing(gr.corner ? [Math.cos(t), Math.sin(t)] : gr.dir));
+    }
+    const full = vis.every(Boolean);
+    vis.forEach((v, i) => {
+      let fill;
+      if (!gr.corner) fill = flatFill(gr);
+      else if (full) fill = 'var(--light)';
+      else fill = flatFill(GROUPS[(gi + (vis[0] ? 7 : 1)) % 8]); // neighbour on the visible end
+      segs.push({ a: gr.pts[i], b: gr.pts[i + 1], v, fill });
+    });
+  });
+  // rotate so we start on a hidden segment, then merge runs of visible segments with the same fill
+  const start = segs.findIndex(x => !x.v), ring = segs.slice(start).concat(segs.slice(0, start));
+  sl.sides = [];
+  let cur = null;
+  for (const sg of ring) {
+    if (!sg.v) { cur = null; continue; }
+    if (!cur || cur.fill !== sg.fill) sl.sides.push(cur = { fill: sg.fill, pts: [sg.a] });
+    cur.pts.push(sg.b);
+  }
+  sl.sides.forEach(sd => sd.el = mk('path', { class: 's', fill: sd.fill }, sl.g));
+  sl.face = mk('path', { class: 's', fill: 'none' }, sl.g); // transparent: the ring shows through, as in the original
+});
+
+const toPath = pts => 'M' + pts.map(p => proj(p).map(v => v.toFixed(1)).join(',')).join('L') + 'Z';
+function place(sl, dist) {
+  const c = sl.n.map(v => v * dist);
+  const P = ([a, b]) => add(add(c, sl.u, a), sl.v, b);
+  for (const s of sl.sides) {
+    const front = s.pts.map(P), back = front.map(p => add(p, sl.n, -T)).reverse();
+    s.el.setAttribute('d', toPath([...front, ...back]));
+  }
+  sl.face.setAttribute('d', toPath(OUTLINE.map(P)));
+}
+
+const clamp = v => Math.max(0, Math.min(1, v));
+const easeIO = t => t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+const back = t => { const c = 1.6; return 1 + (c + 1) * Math.pow(t - 1, 3) + c * Math.pow(t - 1, 2); };
+const ring = document.getElementById('ring');
+const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+// loop timeline (s): hold open → close → hold closed → spring open
+const INTRO = 1.6, HOLD_O = 1.2, CLOSE = 0.8, HOLD_C = 0.7, OPEN_T = 1.0, LOOP = HOLD_O + CLOSE + HOLD_C + OPEN_T;
+function closedness(lt) {
+  let t = lt;
+  if ((t -= HOLD_O) < 0) return 0;
+  if (t < CLOSE) return easeIO(t / CLOSE);
+  if ((t -= CLOSE) < HOLD_C) return 1;
+  return 1 - back(clamp((t - HOLD_C) / OPEN_T));
+}
+
+function frame(ms) {
+  const s = reduce ? 99 : ms / 1000;
+  const k = reduce ? 0 : s > INTRO ? closedness((s - INTRO) % LOOP) : 0;
+  const dist = OPEN + (CLOSED - OPEN) * k;
+  SLABS.forEach((sl, i) => {
+    const p = reduce ? 1 : back(clamp((s - 0.3 - i * 0.18) / 0.7)); // fly in from outside
+    place(sl, dist + (1 - p) * 260);
+    sl.g.style.opacity = clamp(p * 1.5);
+  });
+  // dashed ring grows in, slowly spins, and tightens as the cube closes
+  ring.setAttribute('r', (209 * (0.9 + 0.1 * (dist - CLOSED) / (OPEN - CLOSED)) * easeIO(clamp(s / 0.8))).toFixed(1));
+  ring.style.strokeDashoffset = -s * 20;
+  if (!reduce) requestAnimationFrame(frame);
+}
+requestAnimationFrame(frame);
+</script>
+</body>
+</html>

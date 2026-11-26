@@ -143,10 +143,6 @@ html{scrollbar-gutter:stable}
 .studio-contact .studio-form{background:#fffffff5}
 @media(max-width:479px){.studio-contact-copy{padding:20px 16px}}
 
-/* Strategic asset from the supplied SVG motion demo; scoped to this illustration. */
-.studio-strategic-motion{perspective:1000px;touch-action:pan-y}.studio-strategic-motion svg{display:block;width:100%;height:auto;overflow:visible;will-change:transform}
-.strategic-motion-top{animation:strategic-top 3.8s ease-in-out infinite}.strategic-motion-left{animation:strategic-left 3.8s ease-in-out -.4s infinite}.strategic-motion-right{animation:strategic-right 3.8s ease-in-out -.8s infinite}.strategic-motion-orb{animation:strategic-orb 3.8s ease-in-out infinite;transform-origin:394px 438px}
-@keyframes strategic-top{50%{transform:translateY(-44px)}}@keyframes strategic-left{50%{transform:translate(-35px,22px)}}@keyframes strategic-right{50%{transform:translate(35px,22px)}}@keyframes strategic-orb{50%{transform:scale(1.05)}}
-@media(prefers-reduced-motion:reduce){.studio-strategic-motion svg{transform:none!important}.studio-strategic-motion svg *{animation:none!important}}
-
 #process iframe.studio-performance-motion{display:block;width:100%;height:auto;aspect-ratio:776/804;border:0;background:transparent;overflow:hidden}
+
+#process iframe.studio-strategic-motion-frame{display:block;width:100%;height:auto;aspect-ratio:776/804;border:0;background:transparent;overflow:hidden}
