@@ -425,3 +425,6 @@ The semantic H1 keeps the exact text and browser line wrapping in a live span. s
 
 ### Hero sand refinement
 Use dense circular grains (1.15–1.25px sampling). Pointer movement applies directional swipe impulses; a stationary pointer applies no force. Grains begin spring recovery 500ms after the last impulse. Disable selection on the decorative hero heading to prevent the semantic text appearing underneath the canvas.
+
+### Natural sand and touch interaction
+Normalize brush force by pointer velocity. Vary grain mass and drag, add subtle gravity during flight, and ramp spring recovery over 240ms after the 500ms drift interval. Coarse pointers use a smaller brush and flight range, DPR capped at 1.5, and native vertical scrolling. Taps scatter locally; horizontal swipes brush grains. Respect reduced motion.

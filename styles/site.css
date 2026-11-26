@@ -214,3 +214,5 @@ html{scrollbar-gutter:stable}
 
 #top-heading,#top-heading *{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none;text-shadow:none!important}
 #top-heading::selection,#top-heading *::selection{background:transparent;color:transparent}
+
+@media(pointer:coarse){.studio-sand-heading{touch-action:pan-y}.studio-sand-canvas{left:-220px;top:-220px}}
