@@ -216,3 +216,7 @@ html{scrollbar-gutter:stable}
 #top-heading::selection,#top-heading *::selection{background:transparent;color:transparent}
 
 @media(pointer:coarse){.studio-sand-heading{touch-action:pan-y}.studio-sand-canvas{left:-220px;top:-220px}}
+
+/* Keep fluid art substantial on small screens without increasing solver workload. */
+@media(max-width:1024px){#top .studio-hero-fluid{aspect-ratio:16/10}#top [data-glow-fluid]{filter:blur(16px) saturate(1.12)}}
+@media(max-width:600px){#top .studio-hero-fluid{aspect-ratio:4/3;border-radius:10px}#top [data-glow-fluid]{filter:blur(12px) saturate(1.1)}#top .studio-fluid-grain{opacity:.11}}

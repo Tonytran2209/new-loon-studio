@@ -2,7 +2,8 @@
 (()=>{document.querySelectorAll('[data-glow-fluid]').forEach(cv=>{const host=cv.closest('[data-fluid-host]');if(!host)return;const grain=document.createElement('div');grain.className='studio-fluid-grain';grain.setAttribute('aria-hidden','true');cv.parentElement.append(grain);
 
 // ---- tweakables ----
-const CELL = 12;              // fluid cell size (CSS px); blurred afterwards, so it never looks blocky
+const compact=matchMedia('(max-width: 1024px)').matches||matchMedia('(pointer: coarse)').matches;
+let CELL = 12;              // fluid cell size (CSS px); blurred afterwards, so it never looks blocky
 const EMITTERS = 6;           // ambient sources that keep the fluid flowing
 const MOUSE_FORCE = 0.4;      // how hard the cursor pushes the fluid
 const MOUSE_RADIUS = 90;      // px
@@ -19,14 +20,15 @@ const RAMP = [[222,226,251],[196,224,250],[120,226,242],[56,170,240],[22,104,236
 const LAVENDER = [200,188,246];   // tint that drifts through the light areas
 
 const ctx = cv.getContext('2d');if(!ctx)return;const calm=host.classList.contains('studio-contact');
-let img, W, H, nx, ny, SZ, u, v, u0, v0, p, div, dens, tmp, curl;
+let img, W, H, nx, ny, SZ, u, v, u0, v0, p, div, dens, tmp, curl, su, sv;
 const IX = (i, j) => i + (nx + 2) * j;
 
 function resize() {
   const bounds=host.getBoundingClientRect();W=Math.max(1,bounds.width);H=Math.max(1,bounds.height);
+  CELL=Math.max(compact?10:12,Math.sqrt(W*H/(compact?3600:14000)));
   nx = Math.ceil(W / CELL); ny = Math.ceil(H / CELL); SZ = (nx + 2) * (ny + 2);
   cv.width = nx; cv.height = ny; img = ctx.createImageData(nx, ny);
-  [u, v, u0, v0, p, div, dens, tmp, curl] = Array.from({ length: 9 }, () => new Float32Array(SZ));
+  [u, v, u0, v0, p, div, dens, tmp, curl, su, sv] = Array.from({ length: 11 }, () => new Float32Array(SZ));
 }
 
 
@@ -59,7 +61,7 @@ function project() {
     p[k] = 0;
   }
   setBnd(0, div); setBnd(0, p);
-  for (let it = 0; it < 20; it++) {
+  for (let it = 0; it < (compact?12:20); it++) {
     for (let j = 1; j <= ny; j++) for (let i = 1; i <= nx; i++) {
       const k = IX(i, j);
       p[k] = (div[k] + p[k - 1] + p[k + 1] + p[k - nx - 2] + p[k + nx + 2]) / 4;
@@ -89,7 +91,7 @@ function vorticity() {
 }
 function diffuse(b, x, x0, a) {
   x0.set(x);
-  for (let it = 0; it < 6; it++) {
+  for (let it = 0; it < (compact?4:6); it++) {
     for (let j = 1; j <= ny; j++) for (let i = 1; i <= nx; i++) {
       const k = IX(i, j);
       x[k] = (x0[k] + a * (x[k - 1] + x[k + 1] + x[k - nx - 2] + x[k + nx + 2])) / (1 + 4 * a);
@@ -102,7 +104,7 @@ function step() {
   diffuse(1, u, u0, VISCOSITY); diffuse(2, v, v0, VISCOSITY);
   project();
   for (let k = 0; k < SZ; k++) { u0[k] = u[k] * SPEED; v0[k] = v[k] * SPEED; }
-  { const su = u0.slice(), sv = v0.slice(); u0.set(u); v0.set(v); advect(1, u, u0, su, sv); advect(2, v, v0, su, sv); }
+  { su.set(u0); sv.set(v0); u0.set(u); v0.set(v); advect(1, u, u0, su, sv); advect(2, v, v0, su, sv); }
   project();
   // dye channels ride the velocity field (u0/v0/div are free scratch buffers at this point)
   for (let k = 0; k < SZ; k++) { curl[k] = u[k] * SPEED; p[k] = v[k] * SPEED; }   // scaled velocity (scratch)
@@ -136,8 +138,11 @@ function ramp(t) {
 let mouse = null, prevMouse = null;
 // canvas is oversized by 12% (inset:-6%) so the blur has no soft border; map screen → simulation px
 let lastInput = -1e9;
-host.addEventListener('pointermove',e=>{if(reduce||calm||e.pointerType==='touch')return;lastInput=clock/1000;const r=host.getBoundingClientRect();mouse={x:(e.clientX-r.left+.06*W)/1.12,y:(e.clientY-r.top+.06*H)/1.12}},{passive:true});
-host.addEventListener('pointerleave',()=>{mouse=prevMouse=null},{passive:true});
+function input(e){const r=host.getBoundingClientRect();lastInput=clock/1000;return{x:(e.clientX-r.left+.06*W)/1.12,y:(e.clientY-r.top+.06*H)/1.12}}
+let touch=null;
+host.addEventListener('pointerdown',e=>{if(reduce||calm||e.pointerType!=='touch')return;touch={x:e.clientX,y:e.clientY};mouse=input(e);prevMouse={...mouse};splat(mouse.x,mouse.y,.12,-.12,.25,Math.min(65,W*.16))},{passive:true});
+host.addEventListener('pointermove',e=>{if(reduce||calm)return;if(e.pointerType==='touch'){if(!touch)return;const dx=e.clientX-touch.x,dy=e.clientY-touch.y;if(Math.abs(dy)>Math.abs(dx)*1.15&&Math.abs(dy)>8){touch=null;mouse=prevMouse=null;return}if(Math.hypot(dx,dy)<5)return}mouse=input(e)},{passive:true});
+for(const event of ['pointerleave','pointerup','pointercancel'])host.addEventListener(event,()=>{touch=null;mouse=prevMouse=null},{passive:true});
 
 // ambient emitters: wander on slow lissajous paths, pushing dye along their direction of travel
 const emitters = Array.from({ length: EMITTERS }, (_, i) => ({
@@ -160,7 +165,7 @@ function currents(time, idle) {
   }
 }
 function frame(ms) {
-  raf=0;if(!visible||document.hidden||reduce||(calm&&host.matches(':focus-within'))){last=0;return;}clock+=last?Math.min(ms-last,40):16.67;last=ms;const time=clock/1000;
+  raf=0;if(compact&&last&&ms-last<32){raf=requestAnimationFrame(frame);return}if(!visible||document.hidden||reduce||(calm&&host.matches(':focus-within'))){last=0;return;}clock+=last?Math.min(ms-last,40):16.67;last=ms;const time=clock/1000;
   // 0 while the user is interacting, eases to 1 once idle: ambient motion steps back when the cursor takes over
   const idle = reduce ? 0 : Math.min(1, Math.max(0, (time - lastInput - IDLE_DELAY) / 2));
   if (idle > 0) currents(time, idle);
@@ -170,7 +175,7 @@ function frame(ms) {
     // emitter velocity in cells/frame; a small per-frame nudge settles the nearby liquid at roughly that speed
     // (a big nudge accumulates every frame and turns into chaotic jets)
     const k = 0.015 * (1 + idle) / (0.1 * 60 * CELL);
-    splat(x, y, (x2 - x) * k, (y2 - y) * k, 0.028, 130);
+    splat(x, y, (x2 - x) * k, (y2 - y) * k, 0.028, Math.min(130,Math.min(W,H)*.3));
   }
   if (mouse && prevMouse) {
     const dx = mouse.x - prevMouse.x, dy = mouse.y - prevMouse.y, sp = Math.hypot(dx, dy);
@@ -218,7 +223,7 @@ function seed() {
     const x = W * (0.08 + 0.84 * Math.random()), y = H * (0.1 + 0.8 * Math.random()), a = Math.random() * 6.28;
     splat(x, y, Math.cos(a) * 0.6, Math.sin(a) * 0.6, 1.6, Math.min(W, H) * (0.14 + 0.08 * Math.random()));
   }
-  for (let i = 0; i < 90; i++) step();
+  for (let i = 0; i < (compact?24:90); i++) step();
 }
 
 { // grain: one 160px noise tile, repeated
@@ -228,8 +233,9 @@ function seed() {
   gc.putImageData(id, 0, 0);
   grain.style.background = `url(${g.toDataURL()})`;
 }
-function sync(){cancelAnimationFrame(raf);raf=0;last=0;if(reduce)render(0);else if(visible&&!document.hidden&&!(calm&&host.matches(':focus-within')))raf=requestAnimationFrame(frame)}
-new ResizeObserver(()=>{resize();seed();render(0);sync()}).observe(host);
+function sync(){cancelAnimationFrame(raf);raf=0;last=0;if(!img)return;if(reduce)render(0);else if(visible&&!document.hidden&&!(calm&&host.matches(':focus-within')))raf=requestAnimationFrame(frame)}
+let resizeTimer;function fit(){const r=host.getBoundingClientRect();if(img&&Math.abs(r.width-W)<2&&Math.abs(r.height-H)<2)return;resize();seed();render(0);sync()}
+new ResizeObserver(()=>{clearTimeout(resizeTimer);resizeTimer=setTimeout(fit,img?120:0)}).observe(host);
 new IntersectionObserver(entries=>{visible=entries[0].isIntersecting;sync()},{rootMargin:'80px'}).observe(host);
 document.addEventListener('visibilitychange',sync);motion.addEventListener('change',()=>{reduce=motion.matches;mouse=prevMouse=null;sync()});if(calm){host.addEventListener('focusin',sync);host.addEventListener('focusout',()=>queueMicrotask(sync))}
 

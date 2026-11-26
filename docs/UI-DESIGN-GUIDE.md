@@ -428,3 +428,6 @@ Use dense circular grains (1.15–1.25px sampling). Pointer movement applies dir
 
 ### Natural sand and touch interaction
 Normalize brush force by pointer velocity. Vary grain mass and drag, add subtle gravity during flight, and ramp spring recovery over 240ms after the 500ms drift interval. Coarse pointers use a smaller brush and flight range, DPR capped at 1.5, and native vertical scrolling. Taps scatter locally; horizontal swipes brush grains. Respect reduced motion.
+
+### Responsive hero fluid
+Hero aspect ratio is 16:10 on tablets and 4:3 on phones. Compact/coarse input uses a roughly 3600-cell budget, 30fps cap, fewer solver iterations and warmup steps, and reusable velocity buffers. Passive touch input supports local taps and horizontal strokes while yielding vertical gestures to scrolling. Resize rebuilds are debounced; offscreen/background and reduced-motion pauses remain in place.
