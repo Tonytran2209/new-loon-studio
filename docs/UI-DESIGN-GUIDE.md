@@ -388,3 +388,7 @@ Use the coordinated generated gradient artworks in assets/services: Brand has in
 ## 21. Inside the lab abstract feature artwork
 
 The lab uses three nonfigurative gradient studies in assets/lab: diffuse colour fields for Brand direction, refracted light planes for Digital interfaces, and flowing optical currents for Motion language. Keep brand blue/cyan/periwinkle with fine grain; avoid literal devices, logos and recognizable product forms. The matching study dialogs use the same image as their cards. Preserve existing frame ratio, radius, live text and links. Optimized images are 1200px wide JPEGs.
+
+## 22. Expanded abstract palette for Solutions and Explore more
+
+These two sections now use nonfigurative artwork from assets/editorial-v2. Keep blue #146EF5 as the anchor while varying pastel accents: Brand lavender/rose, Web mint/cyan, Motion periwinkle/peach; AI orchid/pink, Workflow turquoise/mint/lavender, Simplicity peach/ice lavender. Keep fine grain, soft optical gradients and controlled contrast. Avoid literal screens or sculptural product objects. Preserve all live copy, card layouts and interactions. Inside the lab retains its separate artwork family.
