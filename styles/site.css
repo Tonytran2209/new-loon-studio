@@ -206,11 +206,11 @@ html{scrollbar-gutter:stable}
 /* Hero sand text: original line wrapping, decorative canvas, readable fallback. */
 .studio-sand-heading{position:relative;isolation:isolate}
 .studio-sand-text{display:block;width:100%;color:#146ef5}
-.studio-sand-canvas{position:absolute;left:-150px;top:-150px;max-width:none!important;pointer-events:none;z-index:1}
+.studio-sand-canvas{position:absolute;left:-400px;top:-400px;max-width:none!important;pointer-events:none;z-index:1}
 .studio-sand-ready .studio-sand-text{color:transparent}
 @media(prefers-reduced-motion:reduce){.studio-sand-canvas{display:none}.studio-sand-ready .studio-sand-text{color:#146ef5}}
 
-#top{overflow:hidden}
+#top{overflow:visible}
 
 #top-heading,#top-heading *{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none;text-shadow:none!important}
 #top-heading::selection,#top-heading *::selection{background:transparent;color:transparent}
