@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Frames Motion</title>
+<style>
+  :root { --stroke:#1F5FE0; --soft:#A9C1EE; --light:#E6EEFC; --dark:#82AEF5; --bg:#fff; }
+  html,body { margin:0; height:100%; background:var(--bg); }
+  body { display:grid; place-items:center; }
+  svg { width:100%; height:auto; overflow:visible; }
+  .s { stroke:var(--stroke); stroke-width:2; stroke-linejoin:round; stroke-linecap:round; fill:none; }
+</style>
+</head>
+<body>
+<svg viewBox="-20 -20 800 840" role="img" aria-label="Ba khung vuông lớn dần xếp dọc theo trục chiều sâu của hệ trục toạ độ">
+  <line id="depth" class="s" x1="42" y1="607" x2="705" y2="315" stroke-dasharray="7 8"/>
+  <g id="frames"></g>
+  <line id="axisY" class="s" x1="108" y1="642" x2="108" y2="34" pathLength="1"/>
+  <polyline id="headY" class="s" points="92,51 108,34 124,51"/>
+  <line id="axisX" class="s" x1="52" y1="546" x2="416" y2="756" pathLength="1"/>
+  <polyline id="headX" class="s" points="394,754 416,756 403,738"/>
+</svg>
+
+<script>
+const C30 = Math.cos(Math.PI / 6);
+const DEPTH = [0.915, -0.403];                          // screen direction of the dashed depth axis
+// frames in the X–Z plane (facing the viewer along +Y); screen centre, width (x), height (z), inner panel
+const FRAMES = [
+  { cx: 463, cy: 361, w: 326, h: 316, fill: 'var(--dark)',  edge: 'var(--dark)' },
+  { cx: 349, cy: 438, w: 262, h: 240, fill: 'var(--light)', edge: 'var(--soft)' },
+  { cx: 247, cy: 511, w: 172, h: 148, fill: 'var(--bg)',         edge: 'var(--soft)' },
+];
+const R = 16, INSET = 16, RI = 8;
+const add = (a, b, k = 1) => a.map((v, i) => v + b[i] * k);
+const U = [1, 0, 0], V = [0, 0, 1];
+
+// rounded rect outline (half sizes A,B, radius r) in the frame's (u,v) plane
+function outline(A, B, r) {
+  const pts = [];
+  [[1, 1], [-1, 1], [-1, -1], [1, -1]].forEach(([su, sv], k) => {
+    const a0 = k * Math.PI / 2;
+    for (let i = 0; i <= 10; i++) {
+      const t = a0 + i / 10 * Math.PI / 2;
+      pts.push([su * (A - r) + r * Math.cos(t), sv * (B - r) + r * Math.sin(t)]);
+    }
+  });
+  return pts;
+}
+
+const NS = 'http://www.w3.org/2000/svg', root = document.getElementById('frames');
+const mk = (tag, attrs, parent) => { const e = document.createElementNS(NS, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); return parent.appendChild(e); };
+
+FRAMES.forEach(f => {
+  f.face = outline(f.w / 2, f.h / 2, R);
+  f.inner = outline(f.w / 2 - INSET, f.h / 2 - INSET, RI);
+  f.g = mk('g', {}, root);
+  f.faceEl = mk('path', { class: 's', fill: 'var(--bg)' }, f.g);
+  f.innerEl = mk('path', { fill: f.fill, stroke: f.edge, 'stroke-width': 1.5, 'stroke-linejoin': 'round' }, f.g);
+});
+
+function draw(f, ox, oy, sc) {
+  const P = ([a, b]) => {
+    const p = add(U.map(c => c * a * sc), V, b * sc);
+    return [ox + (p[0] - p[1]) * C30, oy + (p[0] + p[1]) * 0.5 - p[2]];
+  };
+  const path = pts => 'M' + pts.map(p => p.map(v => v.toFixed(1)).join(',')).join('L') + 'Z';
+  f.faceEl.setAttribute('d', path(f.face.map(p => P(p))));
+  f.innerEl.setAttribute('d', path(f.inner.map(p => P(p))));
+}
+
+const clamp = v => Math.max(0, Math.min(1, v));
+const ease = t => 1 - Math.pow(1 - t, 3);
+const back = t => { const c = 1.5; return 1 + (c + 1) * Math.pow(t - 1, 3) + c * Math.pow(t - 1, 2); };
+const $ = id => document.getElementById(id);
+const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const INTRO = 2.0, LOOP = 3.4;
+
+function frame(ms) {
+  const s = reduce ? 99 : ms / 1000;
+  // axes draw in, arrowheads appear when their line arrives
+  $('axisY').style.strokeDasharray = 1; $('axisY').style.strokeDashoffset = 1 - ease(clamp(s / 0.7));
+  $('axisX').style.strokeDasharray = 1; $('axisX').style.strokeDashoffset = 1 - ease(clamp((s - 0.15) / 0.7));
+  $('headY').style.opacity = clamp((s - 0.55) / 0.2);
+  $('headX').style.opacity = clamp((s - 0.7) / 0.2);
+  $('depth').style.opacity = clamp((s - 0.3) / 0.5);
+  $('depth').style.strokeDashoffset = reduce ? 0 : -s * 14;   // dashes flow along the depth axis
+
+  const lt = !reduce && s > INTRO ? ((s - INTRO) % LOOP) / LOOP : -1;
+  FRAMES.forEach((f, i) => {
+    const order = FRAMES.length - 1 - i;                      // small → large
+    const p = reduce ? 1 : back(clamp((s - 0.6 - order * 0.22) / 0.7));
+    // wave: each frame in turn slides forward along the depth axis and back
+    const w = lt < 0 ? 0 : Math.max(0, Math.sin(clamp((lt - order * 0.16) / 0.42) * Math.PI));
+    const d = (1 - p) * -90 + w * 22;
+    draw(f, f.cx + DEPTH[0] * d, f.cy + DEPTH[1] * d, 0.6 + 0.4 * p);
+    f.g.style.opacity = clamp(p * 1.4);
+  });
+  if (!reduce) requestAnimationFrame(frame);
+}
+requestAnimationFrame(frame);
+</script>
+</body>
+</html>
