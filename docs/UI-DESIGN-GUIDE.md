@@ -384,3 +384,7 @@ CTA halftone update: use pastel blue #E6F0FF as both CSS fallback and canvas bac
 ## 20. Service feature artwork
 
 Use the coordinated generated gradient artworks in assets/services: Brand has interlocking identity forms, Web layered responsive interface planes, Motion a flowing ribbon. All share #146EF5 electric blue, ice blue, cyan and restrained periwinkle with soft gradient lighting. Keep the existing 4:3 image frame, cover sizing and 10px corners. Images contain no text; copy remains live HTML. Optimized JPEG assets are 1200px wide and approximately 100KB each.
+
+## 21. Inside the lab abstract feature artwork
+
+The lab uses three nonfigurative gradient studies in assets/lab: diffuse colour fields for Brand direction, refracted light planes for Digital interfaces, and flowing optical currents for Motion language. Keep brand blue/cyan/periwinkle with fine grain; avoid literal devices, logos and recognizable product forms. The matching study dialogs use the same image as their cards. Preserve existing frame ratio, radius, live text and links. Optimized images are 1200px wide JPEGs.
