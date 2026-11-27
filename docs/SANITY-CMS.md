@@ -41,3 +41,9 @@ npm ci; npm run build; npm run test:cms. Build fails if Sanity is unavailable or
 Migration plan: migration/PLAN.md. Extract with npm run cms:extract. Import via `cd studio && npx sanity exec import-content.cjs --with-user-token`. The importer uses createIfNotExists, so rerunning does not overwrite editor changes. Local snapshots, manifest and reports are gitignored. Never copy migration data, credentials or Studio source into dist.
 
 Migration completed: see ../migration/RESULTS.md. Automatic deployment webhook is enabled and was tested successfully.
+
+## Blog listing
+
+The Blog page is /blog. Navigation and article back links point to the listing. It reuses the homepage navbar, contact banner, footer, branding and entrance animation. Categories come from published posts. Search, category filtering, chronological/alphabetical sorting and grid/list views work client-side over statically rendered content; URL parameters preserve the selected view. Load more appears above nine matching articles. Without JavaScript all published posts remain readable.
+
+To choose the large leading story, enable "Bài nổi bật trên trang Blog" in a post. If several posts are marked, the newest marked one leads; if none are marked, the first item by display order leads. Set the Blog eyebrow, heading and description under Cài đặt chung → Trang Blog. The existing Publish → Vercel workflow updates this page and article pages together.

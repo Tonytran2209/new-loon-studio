@@ -30,6 +30,11 @@ export type SiteSettings = {
   _rev: string
   siteName?: string
   tagline?: string
+  blog?: {
+    eyebrow?: string
+    heading?: string
+    description?: string
+  }
   logo?: {
     asset?: SanityImageAssetReference
     media?: unknown
@@ -152,6 +157,7 @@ export type Post = {
   _createdAt: string
   _updatedAt: string
   _rev: string
+  featured?: boolean
   sourceKey?: string
   title?: string
   slug?: Slug
@@ -687,6 +693,7 @@ export type WebsiteContentQueryResult = Array<
       _createdAt: string
       _updatedAt: string
       _rev: string
+      featured?: boolean
       sourceKey?: string
       title?: string
       slug?: Slug
@@ -862,6 +869,11 @@ export type WebsiteContentQueryResult = Array<
       _rev: string
       siteName?: string
       tagline?: string
+      blog?: {
+        eyebrow?: string
+        heading?: string
+        description?: string
+      }
       logo: {
         asset: {
           _id: string
