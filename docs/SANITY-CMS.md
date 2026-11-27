@@ -47,3 +47,9 @@ Migration completed: see ../migration/RESULTS.md. Automatic deployment webhook i
 The Blog page is /blog. Navigation and article back links point to the listing. It reuses the homepage navbar, contact banner, footer, branding and entrance animation. Categories come from published posts. Search, category filtering, chronological/alphabetical sorting and grid/list views work client-side over statically rendered content; URL parameters preserve the selected view. Load more appears above nine matching articles. Without JavaScript all published posts remain readable.
 
 To choose the large leading story, enable "Bài nổi bật trên trang Blog" in a post. If several posts are marked, the newest marked one leads; if none are marked, the first item by display order leads. Set the Blog eyebrow, heading and description under Cài đặt chung → Trang Blog. The existing Publish → Vercel workflow updates this page and article pages together.
+
+## Homepage article carousel
+
+Every published `post` appears in the homepage “Explore more” carousel and in `/blog`. Create a document in **Bài viết**, fill the title, generated slug, excerpt, cover image/alt text, category, body and reading time, then **Publish**. The existing Sanity webhook triggers a fresh Vercel build. Drafts stay off the public site. Homepage ordering follows **Thứ tự hiển thị** ascending (smaller values first); the “featured” switch controls the Blog page highlight only.
+
+Desktop shows three cards, tablet two, and mobile one card plus a preview of the next. Previous/next controls disable at the ends; touch scrolling, trackpad scrolling and keyboard arrows work without autoplay. With three published posts all cards fit on desktop, so both arrows are disabled until another post is published. “View all articles” opens `/blog`.
